@@ -5,7 +5,7 @@ export const mainMenuData: MainMenuDataType[] = [
     id: "learning-journal",
     title: "Learning Journal",
     link: "/learning-journal",
-    description: "See my learning journal",
+    description: "My journey of continuous learning and growth",
   },
   {
     id: "projects",
@@ -23,6 +23,6 @@ export const mainMenuData: MainMenuDataType[] = [
     id: "education",
     title: "Education",
     link: "/education",
-    description: "See my education history",
+    description: "View my educational background and qualifications",
   },
 ];

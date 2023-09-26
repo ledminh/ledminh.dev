@@ -35,7 +35,7 @@ const Wrapper = (props: { children: React.ReactNode }) => (
 );
 
 const Text = (props: { children: React.ReactNode }) => (
-  <ul className="flex flex-col gap-4 mb-4 font-mono text-2xl">
+  <ul className="flex flex-col gap-4 mb-6 font-mono text-2xl">
     {props.children}
   </ul>
 );
