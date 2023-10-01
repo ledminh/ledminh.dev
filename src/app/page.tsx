@@ -1,11 +1,13 @@
 import IntroBox from "@/components/home/IntroBox";
-import MainMenu from "@/components/home/MainMenu";
+import MainMenuFull from "@/components/home/MainMenuFull";
 
 export default function Home() {
   return (
     <Wrapper>
       <IntroBox />
-      <MainMenu />
+      <div className="hidden sm:block">
+        <MainMenuFull />
+      </div>
     </Wrapper>
   );
 }

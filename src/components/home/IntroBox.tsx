@@ -1,8 +1,12 @@
 import Link from "next/link";
+import MainMenuReduced from "@/components/home/MainMenuReduced";
 
 export default function IntroBox() {
   return (
     <Wrapper>
+      <div className="block sm:hidden">
+        <MainMenuReduced />
+      </div>
       <Text>
         <Line>
           <h1 className="text-5xl">
@@ -35,7 +39,7 @@ const Wrapper = (props: { children: React.ReactNode }) => (
 );
 
 const Text = (props: { children: React.ReactNode }) => (
-  <ul className="flex flex-col gap-4 mb-6 font-mono text-2xl">
+  <ul className="flex flex-col gap-4 my-10 font-mono text-2xl">
     {props.children}
   </ul>
 );
