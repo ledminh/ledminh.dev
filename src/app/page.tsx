@@ -1,5 +1,5 @@
-import IntroBox from "@/components/home/IntroBox";
-import MainMenuFull from "@/components/home/MainMenuFull";
+import IntroBox from "@/components/IntroBox";
+import MainMenuFull from "@/components/MainMenuFull";
 
 export default function Home() {
   return (

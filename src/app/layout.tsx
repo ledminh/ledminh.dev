@@ -10,8 +10,10 @@ export const metadata = {
 
 export default function RootLayout({
   children,
+  modal,
 }: {
   children: React.ReactNode;
+  modal: React.ReactNode;
 }) {
   return (
     <html lang="en">
@@ -19,6 +21,7 @@ export default function RootLayout({
         className={`${inter.className} bg-gradient-to-b from-transparent via-white to-orange-50 min-h-screen`}
       >
         {children}
+        {modal}
       </body>
     </html>
   );

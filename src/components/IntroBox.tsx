@@ -1,5 +1,5 @@
 import Link from "next/link";
-import MainMenuReduced from "@/components/home/MainMenuReduced";
+import MainMenuReduced from "@/components/MainMenuReduced";
 
 export default function IntroBox() {
   return (
