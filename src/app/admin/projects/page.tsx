@@ -7,8 +7,13 @@ export default function ProjectsAdminPage() {
   return (
     <div>
       <h1>Projects Admin Page</h1>
-      <ProjectCategoryForm />
-      <ProjectForm />
+      <div className="border-2 border-blue-900 p-4">
+        <ProjectCategoryForm />
+      </div>
+
+      <div className="border-2 border-blue-900 p-4">
+        <ProjectForm />
+      </div>
     </div>
   );
 }
