@@ -26,7 +26,7 @@ interface ProjectCategoryAutoOrder extends Entity {
   title: string;
   description: string;
   projects: Project[];
-  sortedBy: "date";
+  sortedBy: "auto";
 }
 
 interface ProjectCategoryManualOrder extends Entity {
