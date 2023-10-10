@@ -1,0 +1,41 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model ProjectCategory {
+  id          String      @id @default(uuid())
+  order       Int
+  title       String
+  description String
+  projects    Project[]
+  sortedBy    String
+}
+
+model Project {
+  id          String      @id @default(uuid())
+  title       String
+  description String
+  github      String
+  demo        String
+  image       Image?      
+  imageId     String
+  category    ProjectCategory @relation(fields: [categoryId], references: [id])
+  categoryId  String
+}
+
+model Image {
+  id          String      @id @default(uuid())
+  url         String
+  alt         String
+  project     Project    @relation(fields: [projectId], references: [id])
+  projectId   String @unique  
+}
