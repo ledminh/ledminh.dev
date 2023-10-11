@@ -4,11 +4,11 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
 import React, { useState } from "react";
 
-import TextInput from "@/components/admin/form/TextInput";
-import TextArea from "@/components/admin/form/TextArea";
-import Form from "@/components/admin/form/Form";
-import FormGroup from "@/components/admin/form/FormGroup";
-import FileForm from "./form/FileForm";
+import TextInput from "./elements/TextInput";
+import TextArea from "./elements/TextArea";
+import Form from "./elements/Form";
+import FormGroup from "./elements/FormGroup";
+import FileForm from "./elements/FileForm";
 
 export default function ProjectCategoryForm(props: {
   onCancel: () => void;

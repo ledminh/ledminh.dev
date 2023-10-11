@@ -23,10 +23,7 @@ export default function Modal(props: {
         <div className="py-4 overflow-y-scroll max-h-[75vh] border-b-2 border-b-neutral-600 mb-4">
           {props.children}
         </div>
-        <button
-          className="px-4 py-2 font-semibold text-white bg-gray-500 rounded-lg hover:text-gray-300"
-          onClick={() => router.back()}
-        >
+        <button className="btn btn-secondary" onClick={() => router.back()}>
           Close
         </button>
       </Dialog.Panel>

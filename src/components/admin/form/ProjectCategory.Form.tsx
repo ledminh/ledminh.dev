@@ -3,11 +3,11 @@
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
 import React, { useState } from "react";
-import ToggleButton from "@/components/admin/form/ToggleButton";
-import TextInput from "@/components/admin/form/TextInput";
-import TextArea from "@/components/admin/form/TextArea";
-import Form from "@/components/admin/form/Form";
-import FormGroup from "@/components/admin/form/FormGroup";
+import ToggleButton from "./elements/ToggleButton";
+import TextInput from "./elements/TextInput";
+import TextArea from "./elements/TextArea";
+import Form from "./elements/Form";
+import FormGroup from "./elements/FormGroup";
 
 export default function ProjectCategoryForm(props: {
   onCancel: () => void;

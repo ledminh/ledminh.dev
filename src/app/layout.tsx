@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} bg-gradient-to-b from-transparent via-white to-orange-50 min-h-screen`}
+        className={`${inter.className} bg-gradient-to-b from-transparent via-white to-orange-50 min-h-screen min-w-[360px]`}
       >
         {children}
         {modal}

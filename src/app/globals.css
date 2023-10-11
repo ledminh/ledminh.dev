@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  @apply min-w-[320px];
+}
+
 .btn {
   @apply px-4 py-2 rounded-md text-white font-medium tracking-wide cursor-pointer text-center;
 }
