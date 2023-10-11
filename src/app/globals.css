@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.btn {
+  @apply px-4 py-2 rounded-md text-white font-medium tracking-wide cursor-pointer text-center;
+}
+
+.btn-primary {
+  @apply bg-gray-800 hover:bg-gray-950;
+}
+
+.btn-secondary {
+  @apply bg-neutral-500 hover:bg-neutral-600;
+}
+
+.btn-attention {
+  @apply bg-red-800 hover:bg-red-950;
+}
