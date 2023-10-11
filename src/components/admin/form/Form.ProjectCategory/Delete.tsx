@@ -3,19 +3,15 @@
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
 import React, { useState } from "react";
-import ToggleButton from "./elements/ToggleButton";
-import TextInput from "./elements/TextInput";
-import TextArea from "./elements/TextArea";
-import Form from "./elements/Form";
-import FormGroup from "./elements/FormGroup";
+import ToggleButton from "../elements/ToggleButton";
+import TextInput from "../elements/TextInput";
+import TextArea from "../elements/TextArea";
+import Form from "../elements/Form";
+import FormGroup from "../elements/FormGroup";
 
 export default function ProjectCategoryForm(props: {
   onCancel: () => void;
-  onSubmit: (data: {
-    name: string;
-    description: string;
-    order: "manual" | "auto";
-  }) => void;
+  onSubmit: (id: string) => void;
 }) {
   const [order, setOrder] = useState<"manual" | "auto">("auto");
 
@@ -32,12 +28,7 @@ export default function ProjectCategoryForm(props: {
   };
 
   const _onSubmit: SubmitHandler<FieldValues> = (data, e) => {
-    props.onSubmit({
-      name: data.name,
-      description: data.description,
-      order: order,
-    });
-
+    props.onSubmit(data.id);
     reset(e);
   };
 

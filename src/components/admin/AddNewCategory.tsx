@@ -1,6 +1,6 @@
 "use client";
 
-import AddNewCategoryModal from "@/components/modals/AddNewCategory.Modal";
+import ProjectCategoryModal from "@/components/modals/Modal.Project.Category";
 import { useState } from "react";
 
 export default function AddNewCategory() {
@@ -14,8 +14,8 @@ export default function AddNewCategory() {
       >
         Add New Category
       </button>
-      <AddNewCategoryModal
-        title="Add New Category"
+      <ProjectCategoryModal
+        type="add"
         isOpen={isModalOpen}
         setIsOpen={setIsModalOpen}
         onSubmit={(data) => {
