@@ -1,20 +1,19 @@
 "use client";
 
 import { Dialog } from "@headlessui/react";
-
+import Modal from "./Modal";
 import { useRouter } from "next/navigation";
 
-export default function Modal(props: {
+export default function InfoModal (props: {
   title: string;
   children: React.ReactNode;
 }) {
   const router = useRouter();
 
   return (
-    <Dialog
-      open={true}
+    <Modal
+      isOpen={true}
       onClose={() => router.back()}
-      className="fixed top-0 bottom-0 left-0 right-0 z-50 flex items-center justify-center bg-black/90"
     >
       <Dialog.Panel className="w-4/5 p-4 bg-white rounded-lg">
         <Dialog.Title className="pb-3 text-2xl font-bold border-b-2 border-b-neutral-600">
@@ -27,6 +26,6 @@ export default function Modal(props: {
           Close
         </button>
       </Dialog.Panel>
-    </Dialog>
+    </Modal>
   );
 }

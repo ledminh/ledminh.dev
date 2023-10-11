@@ -1,50 +1,48 @@
-import Modal from "@/components/modals/About.Modal";
+import InfoModal from "@/components/modals/Modal.Info";
 
-export default function MyDialog() {
+export default function AboutModal() {
   return (
-    <div className="">
-      <Modal title="About">
-        <p>This is the about page.</p>
-        <p>This is the about page.</p>
-        <p>This is the about page.</p>
-        <p>This is the about page.</p>
-        <p>This is the about page.</p>
-        <p>This is the about page.</p>
-        <p>This is the about page.</p>
-        <p>This is the about page.</p>
-        <p>This is the about page.</p>
-        <p>This is the about page.</p>
-        <p>This is the about page.</p>
-        <p>This is the about page.</p>
-        <p>This is the about page.</p>
-        <p>This is the about page.</p>
-        <p>This is the about page.</p>
-        <p>This is the about page.</p>
-        <p>This is the about page.</p>
-        <p>This is the about page.</p>
-        <p>This is the about page.</p>
-        <p>This is the about page.</p>
-        <p>This is the about page.</p>
-        <p>This is the about page.</p>
-        <p>This is the about page.</p>
-        <p>This is the about page.</p>
-        <p>This is the about page.</p>
-        <p>This is the about page.</p>
-        <p>This is the about page.</p>
-        <p>This is the about page.</p>
-        <p>This is the about page.</p>
-        <p>This is the about page.</p>
-        <p>This is the about page.</p>
-        <p>This is the about page.</p>
-        <p>This is the about page.</p>
-        <p>This is the about page.</p>
-        <p>This is the about page.</p>
-        <p>This is the about page.</p>
-        <p>This is the about page.</p>
-        <p>This is the about page.</p>
-        <p>This is the about page.</p>
-        <p>This is the about page.</p>
-      </Modal>
-    </div>
+    <InfoModal title="About">
+      <p>This is the about page.</p>
+      <p>This is the about page.</p>
+      <p>This is the about page.</p>
+      <p>This is the about page.</p>
+      <p>This is the about page.</p>
+      <p>This is the about page.</p>
+      <p>This is the about page.</p>
+      <p>This is the about page.</p>
+      <p>This is the about page.</p>
+      <p>This is the about page.</p>
+      <p>This is the about page.</p>
+      <p>This is the about page.</p>
+      <p>This is the about page.</p>
+      <p>This is the about page.</p>
+      <p>This is the about page.</p>
+      <p>This is the about page.</p>
+      <p>This is the about page.</p>
+      <p>This is the about page.</p>
+      <p>This is the about page.</p>
+      <p>This is the about page.</p>
+      <p>This is the about page.</p>
+      <p>This is the about page.</p>
+      <p>This is the about page.</p>
+      <p>This is the about page.</p>
+      <p>This is the about page.</p>
+      <p>This is the about page.</p>
+      <p>This is the about page.</p>
+      <p>This is the about page.</p>
+      <p>This is the about page.</p>
+      <p>This is the about page.</p>
+      <p>This is the about page.</p>
+      <p>This is the about page.</p>
+      <p>This is the about page.</p>
+      <p>This is the about page.</p>
+      <p>This is the about page.</p>
+      <p>This is the about page.</p>
+      <p>This is the about page.</p>
+      <p>This is the about page.</p>
+      <p>This is the about page.</p>
+      <p>This is the about page.</p>
+    </InfoModal>
   );
 }
