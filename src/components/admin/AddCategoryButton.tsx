@@ -3,7 +3,7 @@
 import ProjectCategoryModal from "@/components/modals/Modal.Project.Category";
 import { useState } from "react";
 
-export default function AddNewCategory() {
+export default function AddCategoryButton() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
@@ -12,7 +12,7 @@ export default function AddNewCategory() {
         className="btn btn-secondary"
         onClick={() => setIsModalOpen(true)}
       >
-        Add New Category
+        Add Category
       </button>
       <ProjectCategoryModal
         type="add"
