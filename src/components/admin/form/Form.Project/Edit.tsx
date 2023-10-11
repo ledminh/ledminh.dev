@@ -4,15 +4,18 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
 import React, { useState } from "react";
 
-import TextInput from "./elements/TextInput";
-import TextArea from "./elements/TextArea";
-import Form from "./elements/Form";
-import FormGroup from "./elements/FormGroup";
-import FileForm from "./elements/FileForm";
+import TextInput from "../elements/TextInput";
+import TextArea from "../elements/TextArea";
+import Form from "../elements/Form";
+import FormGroup from "../elements/FormGroup";
+import FileForm from "../elements/FileForm";
+import NumberInput from "../elements/NumberInput";
 
 export default function ProjectCategoryForm(props: {
   onCancel: () => void;
   onSubmit: (data: {
+    id: string;
+    order: number;
     title: string;
     description: string;
     github: string;
@@ -20,7 +23,6 @@ export default function ProjectCategoryForm(props: {
     image: File;
   }) => void;
 }) {
-  const [order, setOrder] = useState<"manual" | "auto">("auto");
   const [image, setImage] = useState<File | null>(null);
 
   const {
@@ -32,12 +34,13 @@ export default function ProjectCategoryForm(props: {
 
   const reset = (e: any) => {
     e?.target.reset();
-    setOrder("auto");
     setImage(null);
   };
 
   const _onSubmit: SubmitHandler<FieldValues> = (data, e) => {
     props.onSubmit({
+      id: data.id,
+      order: parseInt(data.order),
       title: data.title,
       description: data.description,
       github: data.github,
@@ -55,6 +58,14 @@ export default function ProjectCategoryForm(props: {
 
   return (
     <Form onSubmit={handleSubmit(_onSubmit)} onReset={_onCancel}>
+      <FormGroup label="Order" htmlFor="order">
+        <NumberInput
+          register={register}
+          errors={errors}
+          name="order"
+          required="Order cannot be empty"
+        />
+      </FormGroup>
       <FormGroup label="Title" htmlFor="title">
         <TextInput
           register={register}
