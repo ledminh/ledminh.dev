@@ -18,3 +18,20 @@ export async function addProjectCategory(
     projects: [],
   };
 }
+
+export async function getCategories(): Promise<ProjectCategory[]> {
+  const categories = await prismaClient.projectCategory.findMany({
+    orderBy: {
+      order: "asc",
+    },
+  });
+
+  return categories.map((category) => ({
+    id: category.id,
+    order: category.order,
+    title: category.title,
+    description: category.description,
+    sortedBy: category.sortedBy as "auto" | "manual",
+    projects: [],
+  }));
+}
