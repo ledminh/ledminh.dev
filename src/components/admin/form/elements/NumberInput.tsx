@@ -5,10 +5,12 @@ export default function NumberInput(props: {
   name: string;
   required: string | boolean;
   errors: FieldErrors<FieldValues>;
+  disabled?: boolean;
 }) {
   return (
     <>
       <input
+        disabled={props.disabled}
         id={props.name}
         {...props.register(props.name, {
           required: props.required,

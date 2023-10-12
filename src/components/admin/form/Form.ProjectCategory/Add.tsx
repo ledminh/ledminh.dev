@@ -8,16 +8,14 @@ import TextInput from "../elements/TextInput";
 import TextArea from "../elements/TextArea";
 import Form from "../elements/Form";
 import FormGroup from "../elements/FormGroup";
+import { NewProjectCategory } from "@/types";
+import NumberInput from "../elements/NumberInput";
 
 export default function ProjectCategoryForm(props: {
   onCancel: () => void;
-  onSubmit: (data: {
-    name: string;
-    description: string;
-    order: "manual" | "auto";
-  }) => void;
+  onSubmit: (newCategory: NewProjectCategory) => void;
 }) {
-  const [order, setOrder] = useState<"manual" | "auto">("auto");
+  const [sortedBy, setSortedBy] = useState<"manual" | "auto">("auto");
 
   const {
     handleSubmit,
@@ -28,14 +26,15 @@ export default function ProjectCategoryForm(props: {
 
   const reset = (e: any) => {
     e?.target.reset();
-    setOrder("auto");
+    setSortedBy("auto");
   };
 
   const _onSubmit: SubmitHandler<FieldValues> = (data, e) => {
     props.onSubmit({
-      name: data.name,
+      order: parseInt(data.order),
+      title: data.title,
       description: data.description,
-      order: order,
+      sortedBy,
     });
 
     reset(e);
@@ -49,21 +48,29 @@ export default function ProjectCategoryForm(props: {
   return (
     <Form onSubmit={handleSubmit(_onSubmit)} onReset={_onCancel}>
       <ToggleButton
-        enabled={order === "manual"}
+        enabled={sortedBy === "manual"}
         setEnabled={() =>
-          order === "auto" ? setOrder("manual") : setOrder("auto")
+          sortedBy === "auto" ? setSortedBy("manual") : setSortedBy("auto")
         }
       >
         <span className="font-medium text-gray-900">
-          {order === "manual" ? "Manual" : "Auto"} Order
+          {sortedBy === "manual" ? "Manual" : "Auto"} Order
         </span>
       </ToggleButton>
-      <FormGroup label="Name" htmlFor="name">
+      <FormGroup label="Order" htmlFor="order">
+        <NumberInput
+          register={register}
+          errors={errors}
+          name="order"
+          required="Category's order is required"
+        />
+      </FormGroup>
+      <FormGroup label="Title" htmlFor="title">
         <TextInput
           register={register}
           errors={errors}
-          name="name"
-          required="Category's name is required"
+          name="title"
+          required="Category's title is required"
         />
       </FormGroup>
       <FormGroup label="Description" htmlFor="description">

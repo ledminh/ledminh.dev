@@ -1,5 +1,6 @@
 "use client";
 
+import addProjectCategory from "@/api-calls/addProjectCategory";
 import ProjectCategoryModal from "@/components/modals/Modal.Project.Category";
 import { useState } from "react";
 
@@ -18,8 +19,8 @@ export default function AddCategoryButton() {
         type="add"
         isOpen={isModalOpen}
         setIsOpen={setIsModalOpen}
-        onSubmit={(data) => {
-          console.log(data);
+        onSubmit={(newCategory) => {
+          addProjectCategory(newCategory);
         }}
       />
     </>

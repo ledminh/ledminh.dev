@@ -1,3 +1,4 @@
+import { NewProjectCategory } from "@/types";
 import ProjectCategoryForm from "../admin/form/Form.ProjectCategory/";
 
 import ProjectModal from "./Modal.Project";
@@ -9,11 +10,7 @@ export default function ProjectCategoryModal(
   } & (
     | {
         type: "add";
-        onSubmit: (data: {
-          name: string;
-          description: string;
-          order: "manual" | "auto";
-        }) => void;
+        onSubmit: (newCategory: NewProjectCategory) => void;
       }
     | {
         type: "edit";
