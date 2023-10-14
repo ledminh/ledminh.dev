@@ -1,9 +1,13 @@
-"use client";
-
+import addProject from "@/api-calls/addProject";
 import ProjectProjectModal from "@/components/modals/Modal.Project.Project";
+import { Project } from "@/types";
 import { useState } from "react";
 
-export default function AddProject() {
+type Props = {
+  onAdd: (newProject: Project) => void;
+};
+
+export default function AddProject({ onAdd }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
@@ -14,14 +18,16 @@ export default function AddProject() {
       >
         Add Project
       </button>
-      <ProjectProjectModal
-        type="add"
-        isOpen={isModalOpen}
-        setIsOpen={setIsModalOpen}
-        onSubmit={(data) => {
-          console.log(data);
-        }}
-      />
+      {isModalOpen && (
+        <ProjectProjectModal
+          type="add"
+          isOpen={isModalOpen}
+          setIsOpen={setIsModalOpen}
+          onSubmit={(newProjectData) => {
+            addProject(newProjectData).then((newProject) => onAdd(newProject));
+          }}
+        />
+      )}
     </>
   );
 }

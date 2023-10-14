@@ -39,6 +39,10 @@ export interface Project extends Entity {
   image: Image;
 }
 
+export type NewProject = Omit<Project, "id" | "image"> & {
+  image: File;
+};
+
 /*************************
  * API Calls
  */
@@ -55,12 +59,16 @@ export type ProjectRequest =
   | {
       type: "delete-project-category";
       payload: string;
+    }
+  | {
+      type: "add-project";
+      payload: FormData;
     };
 
 export type ProjectResponse =
   | {
       errorMessage: null;
-      payload: ProjectCategory;
+      payload: ProjectCategory | Project;
     }
   | {
       errorMessage: string;

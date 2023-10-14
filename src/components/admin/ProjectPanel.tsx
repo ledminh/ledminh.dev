@@ -10,15 +10,21 @@ import DeleteCategory from "./DeleteCategory";
 
 type Props = {
   initProjects: Project[];
+  sortedBy: "auto" | "manual";
 };
 
-export default function ProjectPanel({ initProjects }: Props) {
+export default function ProjectPanel({ initProjects, sortedBy }: Props) {
   const [projects, setProjects] = useState(initProjects);
 
   const onAdd = (newProject: Project) => {
-    // const newProjects = [...projects, newProject];
-    // newProjects.sort((a, b) => a.order - b.order);
-    // setCategories(newCategories);
+    const newProjects = [...projects, newProject];
+    if (sortedBy === "auto") {
+      newProjects.sort((a, b) => a.title.localeCompare(b.title));
+    } else {
+      newProjects.sort((a, b) => ((a.order as number) - (b.order as number)));
+    }
+ 
+    setProjects(newProjects);
   };
 
   const onEdit = (editedProject: Project) => {
@@ -43,7 +49,7 @@ export default function ProjectPanel({ initProjects }: Props) {
   return (
     <div>
       <h1>Project Panel</h1>
-      {/* <AddProject onAdd={onAdd} /> */}
+      <AddProject onAdd={onAdd} />
       <ul className="flex gap-2">
         {projects.map((project) => {
           return (

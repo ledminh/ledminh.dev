@@ -7,14 +7,16 @@ type Props = {
   };
 };
 
-export default async function CategoriesAdminPage({ params }: Props) {
-  const projects = await ProjectDB.getProjects(params.id);
+export default async function ProjectsAdminPage({ params }: Props) {
+  const category = await ProjectDB.getCategoryWithProjects(params.id);
 
   return (
     <div>
-      <h1>Projects for category {params.id}</h1>
-
-      <ProjectPanel initProjects={projects} />
+      <h1>Projects for category {category.title}</h1>
+      <ProjectPanel
+        initProjects={category.projects}
+        sortedBy={category.sortedBy}
+      />
     </div>
   );
 }

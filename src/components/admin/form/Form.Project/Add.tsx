@@ -10,17 +10,11 @@ import Form from "../elements/Form";
 import FormGroup from "../elements/FormGroup";
 import FileForm from "../elements/FileForm";
 import NumberInput from "../elements/NumberInput";
+import { NewProject } from "@/types";
 
 export default function ProjectCategoryForm(props: {
   onCancel: () => void;
-  onSubmit: (data: {
-    order: number;
-    title: string;
-    description: string;
-    github: string;
-    demo: string;
-    image: File;
-  }) => void;
+  onSubmit: (newProject: NewProject) => void;
 }) {
   const [image, setImage] = useState<File | null>(null);
 

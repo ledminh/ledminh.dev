@@ -31,7 +31,7 @@ async function addProjectCategory(
     throw new Error(result.errorMessage);
   }
 
-  return result.payload;
+  return result.payload as ProjectCategory;
 }
 
 export default addProjectCategory;

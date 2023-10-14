@@ -26,3 +26,5 @@ export const mainMenuData: MainMenuDataType[] = [
     description: "View my educational background and qualifications",
   },
 ];
+
+export const supabase_project_images_bucket = "project_images";

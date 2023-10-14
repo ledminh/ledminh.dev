@@ -1,4 +1,9 @@
-import { Image, NewProjectCategory, Project, ProjectCategory } from "@/types";
+import {
+  Image,
+  NewProjectCategory,
+  ProjectCategory,
+  ProjectCategoryWithProjects,
+} from "@/types";
 
 import prismaClient from "./prismaClient";
 
@@ -73,22 +78,41 @@ export async function getCategories(): Promise<ProjectCategory[]> {
   }));
 }
 
-export async function getProjects(categoryID: string): Promise<Project[]> {
-  return (
-    await prismaClient.project.findMany({
-      where: {
-        categoryId: categoryID,
+export async function getCategoryWithProjects(
+  categoryID: string
+): Promise<ProjectCategoryWithProjects> {
+  const category = await prismaClient.projectCategory.findUnique({
+    where: {
+      id: categoryID,
+    },
+    include: {
+      projects: {
+        orderBy: {
+          order: "asc",
+        },
+        include: {
+          image: true,
+        },
       },
-      include: {
-        image: true,
-      },
-      orderBy: {
-        order: "asc",
-      },
-    })
-  ).map((project) => ({
+    },
+  });
+
+  if (!category) {
+    throw new Error("Category not found");
+  }
+
+  const projects = category.projects.map((project) => ({
     ...project,
-    categoryID: project.categoryId,
     image: project.image as Image,
   }));
+
+  if (category.sortedBy === "manual") {
+    projects.sort((a, b) => a.order - b.order);
+  }
+
+  return {
+    ...category,
+    sortedBy: category.sortedBy as "auto" | "manual",
+    projects,
+  };
 }

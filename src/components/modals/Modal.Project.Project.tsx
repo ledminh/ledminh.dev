@@ -1,6 +1,7 @@
 import ProjectForm from "@/components/admin/form/Form.Project";
 
 import ProjectModal from "./Modal.Project";
+import { NewProject } from "@/types";
 
 export default function ProjectProjectModal(
   props: {
@@ -9,14 +10,7 @@ export default function ProjectProjectModal(
   } & (
     | {
         type: "add";
-        onSubmit: (data: {
-          order: number;
-          title: string;
-          description: string;
-          github: string;
-          demo: string;
-          image: File;
-        }) => void;
+        onSubmit: (newProjectData: NewProject) => void;
       }
     | {
         type: "edit";
