@@ -2,6 +2,8 @@
 
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
+import { ProjectCategory } from "@/types";
+
 import React, { useState } from "react";
 import ToggleButton from "../elements/ToggleButton";
 import TextInput from "../elements/TextInput";
@@ -9,16 +11,16 @@ import TextArea from "../elements/TextArea";
 import Form from "../elements/Form";
 import FormGroup from "../elements/FormGroup";
 
+import NumberInput from "../elements/NumberInput";
+
 export default function ProjectCategoryForm(props: {
+  initialData: ProjectCategory;
   onCancel: () => void;
-  onSubmit: (data: {
-    id: string;
-    name: string;
-    description: string;
-    order: "manual" | "auto";
-  }) => void;
+  onSubmit: (category: ProjectCategory) => void;
 }) {
-  const [order, setOrder] = useState<"manual" | "auto">("auto");
+  const [sortedBy, setSortedBy] = useState<"manual" | "auto">(
+    props.initialData.sortedBy
+  );
 
   const {
     handleSubmit,
@@ -29,15 +31,16 @@ export default function ProjectCategoryForm(props: {
 
   const reset = (e: any) => {
     e?.target.reset();
-    setOrder("auto");
+    setSortedBy("auto");
   };
 
   const _onSubmit: SubmitHandler<FieldValues> = (data, e) => {
     props.onSubmit({
-      id: data.id,
-      name: data.name,
+      id: props.initialData.id,
+      title: data.title,
       description: data.description,
-      order: order,
+      order: parseInt(data.order),
+      sortedBy,
     });
 
     reset(e);
@@ -51,25 +54,36 @@ export default function ProjectCategoryForm(props: {
   return (
     <Form onSubmit={handleSubmit(_onSubmit)} onReset={_onCancel}>
       <ToggleButton
-        enabled={order === "manual"}
+        enabled={sortedBy === "manual"}
         setEnabled={() =>
-          order === "auto" ? setOrder("manual") : setOrder("auto")
+          sortedBy === "auto" ? setSortedBy("manual") : setSortedBy("auto")
         }
       >
         <span className="font-medium text-gray-900">
-          {order === "manual" ? "Manual" : "Auto"} Order
+          {sortedBy === "manual" ? "Manual" : "Auto"} Order
         </span>
       </ToggleButton>
-      <FormGroup label="Name" htmlFor="name">
-        <TextInput
+      <FormGroup label="Order" htmlFor="order">
+        <NumberInput
+          defaultValue={"" + props.initialData.order}
           register={register}
           errors={errors}
-          name="name"
-          required="Category's name is required"
+          name="order"
+          required="Category's order is required"
+        />
+      </FormGroup>
+      <FormGroup label="Title" htmlFor="title">
+        <TextInput
+          defaultValue={props.initialData.title}
+          register={register}
+          errors={errors}
+          name="title"
+          required="Category's title is required"
         />
       </FormGroup>
       <FormGroup label="Description" htmlFor="description">
         <TextArea
+          defaultValue={props.initialData.description}
           register={register}
           errors={errors}
           name="description"

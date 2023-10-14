@@ -1,4 +1,4 @@
-import { NewProjectCategory } from "@/types";
+import { NewProjectCategory, ProjectCategory } from "@/types";
 import ProjectCategoryForm from "../admin/form/Form.ProjectCategory/";
 
 import ProjectModal from "./Modal.Project";
@@ -14,12 +14,8 @@ export default function ProjectCategoryModal(
       }
     | {
         type: "edit";
-        onSubmit: (data: {
-          id: string;
-          name: string;
-          description: string;
-          order: "manual" | "auto";
-        }) => void;
+        initialData: ProjectCategory;
+        onSubmit: (editedCategory: ProjectCategory) => void;
       }
     | {
         type: "delete";
@@ -44,6 +40,7 @@ export default function ProjectCategoryModal(
     title = "Edit Category";
     form = (
       <ProjectCategoryForm.Edit
+        initialData={props.initialData}
         onCancel={() => props.setIsOpen(false)}
         onSubmit={(data) => {
           props.onSubmit(data);

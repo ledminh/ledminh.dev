@@ -1,5 +1,4 @@
-import AddCategoryButton from "@/components/admin/AddCategoryButton";
-import AddProjectButton from "@/components/admin/AddProjectButton";
+import AddProjectButton from "@/components/admin/AddProject";
 import CategoryPanel from "@/components/admin/CategoryPanel";
 import { ProjectDB } from "@/data";
 

@@ -7,7 +7,7 @@ type Props = {
   onAdd: (newCategory: ProjectCategory) => void;
 };
 
-export default function AddCategoryButton({ onAdd }: Props) {
+export default function AddCategory({ onAdd }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
@@ -18,16 +18,18 @@ export default function AddCategoryButton({ onAdd }: Props) {
       >
         Add Category
       </button>
-      <ProjectCategoryModal
-        type="add"
-        isOpen={isModalOpen}
-        setIsOpen={setIsModalOpen}
-        onSubmit={(newCategoryData) => {
-          addProjectCategory(newCategoryData).then((newCategory) =>
-            onAdd(newCategory)
-          );
-        }}
-      />
+      {isModalOpen && (
+        <ProjectCategoryModal
+          type="add"
+          isOpen={isModalOpen}
+          setIsOpen={setIsModalOpen}
+          onSubmit={(newCategoryData) => {
+            addProjectCategory(newCategoryData).then((newCategory) =>
+              onAdd(newCategory)
+            );
+          }}
+        />
+      )}
     </>
   );
 }

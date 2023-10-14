@@ -16,6 +16,13 @@ export async function POST(
         errorMessage: null,
         payload: newCategory,
       });
+    } else if (type === "update-project-category") {
+      const updatedCategory = await ProjectDB.updateProjectCategory(payload);
+
+      return NextResponse.json({
+        errorMessage: null,
+        payload: updatedCategory,
+      });
     } else {
       throw new Error("action not found");
     }

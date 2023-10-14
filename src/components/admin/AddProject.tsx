@@ -3,7 +3,7 @@
 import ProjectProjectModal from "@/components/modals/Modal.Project.Project";
 import { useState } from "react";
 
-export default function AddProjectButton() {
+export default function AddProject() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (

@@ -15,23 +15,42 @@ export async function addProjectCategory(
     title: returnedCategory.title,
     description: returnedCategory.description,
     sortedBy: returnedCategory.sortedBy as "auto" | "manual",
-    projects: [],
+  };
+}
+
+export async function updateProjectCategory(
+  editedCategory: ProjectCategory
+): Promise<ProjectCategory> {
+  const returnedCategory = await prismaClient.projectCategory.update({
+    where: {
+      id: editedCategory.id,
+    },
+    data: {
+      order: editedCategory.order,
+      title: editedCategory.title,
+      description: editedCategory.description,
+      sortedBy: editedCategory.sortedBy,
+    },
+  });
+
+  return {
+    id: returnedCategory.id,
+    order: returnedCategory.order,
+    title: returnedCategory.title,
+    description: returnedCategory.description,
+    sortedBy: returnedCategory.sortedBy as "auto" | "manual",
   };
 }
 
 export async function getCategories(): Promise<ProjectCategory[]> {
-  const categories = await prismaClient.projectCategory.findMany({
-    orderBy: {
-      order: "asc",
-    },
-  });
-
-  return categories.map((category) => ({
-    id: category.id,
-    order: category.order,
-    title: category.title,
-    description: category.description,
+  return (
+    await prismaClient.projectCategory.findMany({
+      orderBy: {
+        order: "asc",
+      },
+    })
+  ).map((category) => ({
+    ...category,
     sortedBy: category.sortedBy as "auto" | "manual",
-    projects: [],
   }));
 }
