@@ -2,7 +2,7 @@ interface Entity {
   id: string;
 }
 
-interface Image extends Entity {
+export interface Image extends Entity {
   url: string;
   alt: string;
 }

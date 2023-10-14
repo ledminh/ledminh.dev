@@ -3,8 +3,7 @@
 import Link from "next/link";
 import { ProjectCategory } from "@/types";
 import { useState } from "react";
-import AddCategoryButton from "./AddCategory";
-import ProjectCategoryModal from "@/components/modals/Modal.Project.Category";
+import AddCategory from "./AddCategory";
 import EditCategory from "./EditCategory";
 import DeleteCategory from "./DeleteCategory";
 
@@ -49,7 +48,7 @@ export default function CategoryPanel({ initCategories }: Props) {
   return (
     <div>
       <h1>Category Panel</h1>
-      <AddCategoryButton onAdd={onAdd} />
+      <AddCategory onAdd={onAdd} />
       <ul className="flex gap-2">
         {categories.map((category) => {
           return (

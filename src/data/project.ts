@@ -1,4 +1,4 @@
-import { NewProjectCategory, ProjectCategory } from "@/types";
+import { Image, NewProjectCategory, Project, ProjectCategory } from "@/types";
 
 import prismaClient from "./prismaClient";
 
@@ -70,5 +70,25 @@ export async function getCategories(): Promise<ProjectCategory[]> {
   ).map((category) => ({
     ...category,
     sortedBy: category.sortedBy as "auto" | "manual",
+  }));
+}
+
+export async function getProjects(categoryID: string): Promise<Project[]> {
+  return (
+    await prismaClient.project.findMany({
+      where: {
+        categoryId: categoryID,
+      },
+      include: {
+        image: true,
+      },
+      orderBy: {
+        order: "asc",
+      },
+    })
+  ).map((project) => ({
+    ...project,
+    categoryID: project.categoryId,
+    image: project.image as Image,
   }));
 }
