@@ -3,7 +3,7 @@ interface Entity {
 }
 
 export interface Image extends Entity {
-  url: string;
+  src: string;
   alt: string;
 }
 

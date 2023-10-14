@@ -5,9 +5,11 @@ import { useState } from "react";
 
 type Props = {
   onAdd: (newProject: Project) => void;
+  sortedBy: "auto" | "manual";
+  categoryID: string;
 };
 
-export default function AddProject({ onAdd }: Props) {
+export default function AddProject({ onAdd, sortedBy, categoryID }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
@@ -21,10 +23,13 @@ export default function AddProject({ onAdd }: Props) {
       {isModalOpen && (
         <ProjectProjectModal
           type="add"
+          sortedBy={sortedBy}
           isOpen={isModalOpen}
           setIsOpen={setIsModalOpen}
           onSubmit={(newProjectData) => {
-            addProject(newProjectData).then((newProject) => onAdd(newProject));
+            addProject(newProjectData, categoryID).then((newProject) =>
+              onAdd(newProject)
+            );
           }}
         />
       )}

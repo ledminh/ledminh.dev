@@ -15,7 +15,7 @@ export async function POST(
     if (typeParam !== null) {
       switch (typeParam) {
         case "add-project":
-        // return addProject(request);
+          return addProject(request);
         default:
           throw new Error("type not found");
       }

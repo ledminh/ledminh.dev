@@ -3,9 +3,18 @@ import {
   NewProjectCategory,
   ProjectCategory,
   ProjectCategoryWithProjects,
+  Project,
 } from "@/types";
 
 import prismaClient from "./prismaClient";
+
+/*************************************
+ * ADMIN FUNCTIONS
+ *************************************/
+
+// *********************
+// Project Category
+// *********************
 
 export async function addProjectCategory(
   newCategory: NewProjectCategory
@@ -78,6 +87,51 @@ export async function getCategories(): Promise<ProjectCategory[]> {
   }));
 }
 
+// *********************
+// Project
+// *********************
+
+export async function addImage(image: Omit<Image, "id">): Promise<Image> {
+  const returnedImage = await prismaClient.image.create({
+    data: image,
+  });
+
+  return {
+    id: returnedImage.id,
+    src: returnedImage.src,
+    alt: returnedImage.alt,
+  };
+}
+
+export async function addProject(
+  categoryID: string,
+  newProjectData: Omit<Project, "id">
+): Promise<Project> {
+  return await prismaClient.project.create({
+    data: {
+      ...newProjectData,
+      category: {
+        connect: {
+          id: categoryID,
+        },
+      },
+      image: {
+        connect: {
+          id: newProjectData.image.id,
+        },
+      },
+    },
+
+    include: {
+      image: true,
+    },
+  });
+}
+
+/*************************************
+ * USER FUNCTIONS
+ *************************************/
+
 export async function getCategoryWithProjects(
   categoryID: string
 ): Promise<ProjectCategoryWithProjects> {
@@ -107,7 +161,7 @@ export async function getCategoryWithProjects(
   }));
 
   if (category.sortedBy === "manual") {
-    projects.sort((a, b) => a.order - b.order);
+    projects.sort((a, b) => (a.order as number) - (b.order as number));
   }
 
   return {

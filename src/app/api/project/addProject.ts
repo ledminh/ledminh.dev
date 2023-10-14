@@ -1,37 +1,44 @@
 import uploadImage from "@/utils/uploadImage";
 import { ProjectDB } from "@/data";
 import { NextResponse, NextRequest } from "next/server";
+import { Project } from "@/types";
 
 export default async function addProject(request: NextRequest) {
   const formData = await request.formData();
 
-  // const image = formData.get("image") as File;
+  const image = formData.get("image") as File;
 
-  // const { imagePath, error } = await uploadImage(
-  //   "projects",
-  //   "images",
-  //   image.name,
-  //   image
-  // );
+  const { imagePath, error } = await uploadImage(
+    "projects",
+    "images",
+    image.name.split(".")[0],
+    image
+  );
 
-  // if (error) {
-  //   throw new Error(error.message);
-  // }
+  if (error) {
+    throw new Error(error.message);
+  }
 
-  // const newProjectData = {
-  //   name: formData.get("name") as string,
-  //   description: formData.get("description") as string,
-  //   category: formData.get("category") as string,
-  //   image: imagePath,
-  // };
-  // };
+  const imageData = await ProjectDB.addImage({
+    src: imagePath,
+    alt: `Project image for ${formData.get("title")}`,
+  });
 
-  // const newCategory = await ProjectDB.addProjectCategory(
-  //   newProjectCategoryData
-  // );
+  const categoryID = formData.get("categoryID") as string;
+
+  const newProjectData: Omit<Project, "id"> = {
+    order: formData.get("order") ? Number(formData.get("order")) : null,
+    title: formData.get("title") as string,
+    description: formData.get("description") as string,
+    github: formData.get("github") as string,
+    demo: formData.get("demo") as string,
+    image: imageData,
+  };
+
+  const newProject = await ProjectDB.addProject(categoryID, newProjectData);
 
   return NextResponse.json({
-    // errorMessage: null,
-    // payload: newCategory,
+    errorMessage: null,
+    payload: newProject,
   });
 }

@@ -7,23 +7,30 @@ import AddProject from "./AddProject";
 import ProjectCategoryModal from "@/components/modals/Modal.Project.Category";
 import EditCategory from "./EditCategory";
 import DeleteCategory from "./DeleteCategory";
+import Image from "next/image";
 
 type Props = {
   initProjects: Project[];
   sortedBy: "auto" | "manual";
+  categoryID: string;
 };
 
-export default function ProjectPanel({ initProjects, sortedBy }: Props) {
+export default function ProjectPanel({
+  initProjects,
+  sortedBy,
+  categoryID,
+}: Props) {
   const [projects, setProjects] = useState(initProjects);
 
   const onAdd = (newProject: Project) => {
     const newProjects = [...projects, newProject];
+
     if (sortedBy === "auto") {
       newProjects.sort((a, b) => a.title.localeCompare(b.title));
     } else {
-      newProjects.sort((a, b) => ((a.order as number) - (b.order as number)));
+      newProjects.sort((a, b) => (a.order as number) - (b.order as number));
     }
- 
+
     setProjects(newProjects);
   };
 
@@ -49,7 +56,7 @@ export default function ProjectPanel({ initProjects, sortedBy }: Props) {
   return (
     <div>
       <h1>Project Panel</h1>
-      <AddProject onAdd={onAdd} />
+      <AddProject onAdd={onAdd} sortedBy={sortedBy} categoryID={categoryID} />
       <ul className="flex gap-2">
         {projects.map((project) => {
           return (
@@ -58,6 +65,16 @@ export default function ProjectPanel({ initProjects, sortedBy }: Props) {
                 <p>{project.title}</p>
                 <p>{project.description}</p>
                 <p>{project.order}</p>
+                <p>{project.github}</p>
+                <p>{project.demo}</p>
+                <div className="relative w-10 h-10">
+                  <Image
+                    src={project.image.src}
+                    alt={project.image.alt}
+                    fill
+                    className="object-fill"
+                  />
+                </div>
                 {/* <div className="flex gap-2">
                   <EditCategory onEdit={onEdit} category={category} />
                   <DeleteCategory onDelete={onDelete} category={category} />

@@ -11,6 +11,7 @@ export default function ProjectProjectModal(
     | {
         type: "add";
         onSubmit: (newProjectData: NewProject) => void;
+        sortedBy: "auto" | "manual";
       }
     | {
         type: "edit";
@@ -36,6 +37,7 @@ export default function ProjectProjectModal(
     title = "Add New Project";
     form = (
       <ProjectForm.Add
+        sortedBy={props.sortedBy}
         onCancel={() => props.setIsOpen(false)}
         onSubmit={(data) => {
           props.onSubmit(data);

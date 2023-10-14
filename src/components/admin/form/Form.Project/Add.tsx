@@ -13,6 +13,7 @@ import NumberInput from "../elements/NumberInput";
 import { NewProject } from "@/types";
 
 export default function ProjectCategoryForm(props: {
+  sortedBy: "auto" | "manual";
   onCancel: () => void;
   onSubmit: (newProject: NewProject) => void;
 }) {
@@ -32,7 +33,7 @@ export default function ProjectCategoryForm(props: {
 
   const _onSubmit: SubmitHandler<FieldValues> = (data, e) => {
     props.onSubmit({
-      order: parseInt(data.order),
+      order: props.sortedBy === "manual" ? parseInt(data.order) : null,
       title: data.title,
       description: data.description,
       github: data.github,
@@ -50,14 +51,17 @@ export default function ProjectCategoryForm(props: {
 
   return (
     <Form onSubmit={handleSubmit(_onSubmit)} onReset={_onCancel}>
-      <FormGroup label="Order" htmlFor="order">
-        <NumberInput
-          register={register}
-          errors={errors}
-          name="order"
-          required="Order cannot be empty"
-        />
-      </FormGroup>
+      {props.sortedBy === "manual" && (
+        <FormGroup label="Order" htmlFor="order">
+          <NumberInput
+            register={register}
+            errors={errors}
+            name="order"
+            required="Order cannot be empty"
+          />
+        </FormGroup>
+      )}
+
       <FormGroup label="Title" htmlFor="title">
         <TextInput
           register={register}

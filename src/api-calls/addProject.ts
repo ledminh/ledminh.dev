@@ -1,12 +1,15 @@
-import type {
-  NewProject,
-  ProjectCategory,
-  Project,
-  ProjectResponse,
-} from "@/types";
+import type { NewProject, Project, ProjectResponse } from "@/types";
 
-async function addProject(newProject: NewProject): Promise<Project> {
+async function addProject(
+  newProject: NewProject,
+  categoryID: string
+): Promise<Project> {
   const formData = new FormData();
+
+  if (newProject.order !== null)
+    formData.append("order", newProject.order.toString());
+
+  formData.append("categoryID", categoryID);
   formData.append("title", newProject.title);
   formData.append("description", newProject.description);
   formData.append("github", newProject.github);

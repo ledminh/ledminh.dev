@@ -16,6 +16,7 @@ export default async function ProjectsAdminPage({ params }: Props) {
       <ProjectPanel
         initProjects={category.projects}
         sortedBy={category.sortedBy}
+        categoryID={category.id}
       />
     </div>
   );
