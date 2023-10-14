@@ -23,6 +23,13 @@ export async function POST(
         errorMessage: null,
         payload: updatedCategory,
       });
+    } else if (type === "delete-project-category") {
+      const deletedCategory = await ProjectDB.deleteProjectCategory(payload);
+
+      return NextResponse.json({
+        errorMessage: null,
+        payload: deletedCategory,
+      });
     } else {
       throw new Error("action not found");
     }

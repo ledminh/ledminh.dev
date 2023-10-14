@@ -42,6 +42,24 @@ export async function updateProjectCategory(
   };
 }
 
+export async function deleteProjectCategory(
+  categoryID: string
+): Promise<ProjectCategory> {
+  const returnedCategory = await prismaClient.projectCategory.delete({
+    where: {
+      id: categoryID,
+    },
+  });
+
+  return {
+    id: returnedCategory.id,
+    order: returnedCategory.order,
+    title: returnedCategory.title,
+    description: returnedCategory.description,
+    sortedBy: returnedCategory.sortedBy as "auto" | "manual",
+  };
+}
+
 export async function getCategories(): Promise<ProjectCategory[]> {
   return (
     await prismaClient.projectCategory.findMany({

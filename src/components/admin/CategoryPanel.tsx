@@ -6,6 +6,7 @@ import { useState } from "react";
 import AddCategoryButton from "./AddCategory";
 import ProjectCategoryModal from "@/components/modals/Modal.Project.Category";
 import EditCategory from "./EditCategory";
+import DeleteCategory from "./DeleteCategory";
 
 type Props = {
   initCategories: ProjectCategory[];
@@ -35,6 +36,16 @@ export default function CategoryPanel({ initCategories }: Props) {
     setCategories(newCategories);
   };
 
+  const onDelete = (deletedCategory: ProjectCategory) => {
+    const newCategories = categories.filter(
+      (category) => category.id !== deletedCategory.id
+    );
+
+    newCategories.sort((a, b) => a.order - b.order);
+
+    setCategories(newCategories);
+  };
+
   return (
     <div>
       <h1>Category Panel</h1>
@@ -53,9 +64,7 @@ export default function CategoryPanel({ initCategories }: Props) {
                 <p>{category.sortedBy}</p>
                 <div className="flex gap-2">
                   <EditCategory onEdit={onEdit} category={category} />
-                  <button className="border-2 border-red-500 p-1 hover:border-blue-800">
-                    Delete
-                  </button>
+                  <DeleteCategory onDelete={onDelete} category={category} />
                 </div>
               </Link>
             </li>

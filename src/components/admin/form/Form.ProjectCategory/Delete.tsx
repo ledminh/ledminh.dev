@@ -2,6 +2,8 @@
 
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
+import { ProjectCategory } from "@/types";
+
 import React, { useState } from "react";
 import ToggleButton from "../elements/ToggleButton";
 import TextInput from "../elements/TextInput";
@@ -10,75 +12,30 @@ import Form from "../elements/Form";
 import FormGroup from "../elements/FormGroup";
 
 export default function ProjectCategoryForm(props: {
+  category: ProjectCategory;
   onCancel: () => void;
   onSubmit: (id: string) => void;
 }) {
-  const [order, setOrder] = useState<"manual" | "auto">("auto");
-
-  const {
-    handleSubmit,
-
-    register,
-    formState: { errors },
-  } = useForm();
-
-  const reset = (e: any) => {
-    e?.target.reset();
-    setOrder("auto");
-  };
-
-  const _onSubmit: SubmitHandler<FieldValues> = (data, e) => {
-    props.onSubmit(data.id);
-    reset(e);
-  };
-
-  const _onCancel = (e: any) => {
-    props.onCancel();
-    reset(e);
-  };
-
   return (
-    <Form onSubmit={handleSubmit(_onSubmit)} onReset={_onCancel}>
-      <ToggleButton
-        enabled={order === "manual"}
-        setEnabled={() =>
-          order === "auto" ? setOrder("manual") : setOrder("auto")
-        }
-      >
-        <span className="font-medium text-gray-900">
-          {order === "manual" ? "Manual" : "Auto"} Order
-        </span>
-      </ToggleButton>
-      <FormGroup label="Name" htmlFor="name">
-        <TextInput
-          register={register}
-          errors={errors}
-          name="name"
-          required="Category's name is required"
-        />
-      </FormGroup>
-      <FormGroup label="Description" htmlFor="description">
-        <TextArea
-          register={register}
-          errors={errors}
-          name="description"
-          required="Category's description is required"
-        />
-      </FormGroup>
+    <div>
+      <h2>Do you want to delete this category</h2>
+      <div className="flex gap-2">
+        <p>{props.category.title}</p>
+        <p>{props.category.description}</p>
+        <p>{props.category.order}</p>
+        <p>{props.category.sortedBy}</p>
+      </div>
       <div className="flex gap-2">
         <button
-          className="px-4 py-2 bg-gray-500 rounded-lg text-white font-semibold hover:bg-gray-800"
-          type="submit"
+          className="btn btn-primary"
+          onClick={() => props.onSubmit(props.category.id)}
         >
-          Submit
+          Yes
         </button>
-        <button
-          className="px-4 py-2 bg-red-900 rounded-lg text-white font-semibold hover:bg-red-950"
-          type="reset"
-        >
-          Cancel
+        <button className="btn btn-secondary" onClick={props.onCancel}>
+          No
         </button>
       </div>
-    </Form>
+    </div>
   );
 }

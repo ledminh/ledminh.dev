@@ -51,6 +51,10 @@ export type ProjectRequest =
   | {
       type: "update-project-category";
       payload: ProjectCategory;
+    }
+  | {
+      type: "delete-project-category";
+      payload: string;
     };
 
 export type ProjectResponse =

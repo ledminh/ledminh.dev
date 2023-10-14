@@ -19,6 +19,7 @@ export default function ProjectCategoryModal(
       }
     | {
         type: "delete";
+        category: ProjectCategory;
         onSubmit: (id: string) => void;
       }
   )
@@ -52,6 +53,7 @@ export default function ProjectCategoryModal(
     title = "Delete Category";
     form = (
       <ProjectCategoryForm.Delete
+        category={props.category}
         onCancel={() => props.setIsOpen(false)}
         onSubmit={(id) => {
           props.onSubmit(id);
