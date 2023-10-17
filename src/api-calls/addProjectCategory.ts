@@ -1,19 +1,19 @@
 import type {
   NewProjectCategory,
   ProjectCategory,
-  ProjectRequest,
-  ProjectResponse,
+  ProjectCategoryRequest,
+  ProjectCategoryResponse,
 } from "@/types";
 
 async function addProjectCategory(
   newCategory: NewProjectCategory
 ): Promise<ProjectCategory> {
-  const request: ProjectRequest = {
+  const request: ProjectCategoryRequest = {
     type: "add-project-category",
     payload: newCategory,
   };
 
-  const response = await fetch("/api/project", {
+  const response = await fetch("/api/project/category/admin?action=add", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -25,7 +25,7 @@ async function addProjectCategory(
     throw new Error(`Failed to add project category: ${response.statusText}`);
   }
 
-  const result = (await response.json()) as ProjectResponse;
+  const result = (await response.json()) as ProjectCategoryResponse;
 
   if (result.errorMessage !== null) {
     throw new Error(result.errorMessage);

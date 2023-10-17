@@ -51,7 +51,13 @@ export type EditedProjectData = Omit<Project, "image"> & {
  * API Calls
  */
 
-export type ProjectRequest =
+export type ProjectRequest = {
+  type: "delete-project";
+  payload: string;
+};
+// update and add are performed through request.formData() --> no need for payload
+
+export type ProjectCategoryRequest =
   | {
       type: "add-project-category";
       payload: NewProjectCategory;
@@ -62,14 +68,6 @@ export type ProjectRequest =
     }
   | {
       type: "delete-project-category";
-      payload: string;
-    }
-  | {
-      type: "add-project";
-      payload: FormData;
-    }
-  | {
-      type: "delete-project";
       payload: string;
     };
 

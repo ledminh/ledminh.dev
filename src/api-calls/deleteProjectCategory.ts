@@ -1,14 +1,18 @@
-import type { ProjectCategory, ProjectRequest, ProjectResponse } from "@/types";
+import type {
+  ProjectCategory,
+  ProjectCategoryRequest,
+  ProjectCategoryResponse,
+} from "@/types";
 
 async function deleteProjectCategory(
   categoryID: string
 ): Promise<ProjectCategory> {
-  const request: ProjectRequest = {
+  const request: ProjectCategoryRequest = {
     type: "delete-project-category",
     payload: categoryID,
   };
 
-  const response = await fetch("/api/project", {
+  const response = await fetch("/api/project/category/admin?action=delete", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -22,13 +26,13 @@ async function deleteProjectCategory(
     );
   }
 
-  const result = (await response.json()) as ProjectResponse;
+  const result = (await response.json()) as ProjectCategoryResponse;
 
   if (result.errorMessage !== null) {
     throw new Error(result.errorMessage);
   }
 
-  return result.payload as ProjectCategory;
+  return result.payload;
 }
 
 export default deleteProjectCategory;

@@ -1,14 +1,18 @@
-import type { ProjectCategory, ProjectRequest, ProjectResponse } from "@/types";
+import type {
+  ProjectCategory,
+  ProjectCategoryRequest,
+  ProjectCategoryResponse,
+} from "@/types";
 
 async function updateProjectCategory(
   category: ProjectCategory
 ): Promise<ProjectCategory> {
-  const request: ProjectRequest = {
+  const request: ProjectCategoryRequest = {
     type: "update-project-category",
     payload: category,
   };
 
-  const response = await fetch("/api/project", {
+  const response = await fetch("/api/project/category/admin?action=update", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -22,7 +26,7 @@ async function updateProjectCategory(
     );
   }
 
-  const result = (await response.json()) as ProjectResponse;
+  const result = (await response.json()) as ProjectCategoryResponse;
 
   if (result.errorMessage !== null) {
     throw new Error(result.errorMessage);
