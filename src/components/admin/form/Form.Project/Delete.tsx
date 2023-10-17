@@ -1,105 +1,42 @@
 "use client";
 
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { Project } from "@/types";
+import Image from "next/image";
 
-import React, { useState } from "react";
-
-import TextInput from "../elements/TextInput";
-import TextArea from "../elements/TextArea";
-import Form from "../elements/Form";
-import FormGroup from "../elements/FormGroup";
-import FileForm from "../elements/FileForm";
-import NumberInput from "../elements/NumberInput";
-
-export default function ProjectCategoryForm(props: {
+export default function ProjectForm(props: {
   onCancel: () => void;
   onSubmit: (id: string) => void;
+  project: Project;
 }) {
-  const [image, setImage] = useState<File | null>(null);
-
-  const {
-    handleSubmit,
-
-    register,
-    formState: { errors },
-  } = useForm();
-
-  const reset = (e: any) => {
-    e?.target.reset();
-    setImage(null);
-  };
-
-  const _onSubmit: SubmitHandler<FieldValues> = (data, e) => {
-    props.onSubmit(data.id as string);
-
-    reset(e);
-  };
-
-  const _onCancel = (e: any) => {
-    props.onCancel();
-    reset(e);
-  };
-
   return (
-    <Form onSubmit={handleSubmit(_onSubmit)} onReset={_onCancel}>
-      <FormGroup label="Order" htmlFor="order">
-        <NumberInput
-          register={register}
-          errors={errors}
-          name="order"
-          required="Order cannot be empty"
-        />
-      </FormGroup>
-      <FormGroup label="Title" htmlFor="title">
-        <TextInput
-          register={register}
-          errors={errors}
-          name="title"
-          required="Title cannot be empty"
-        />
-      </FormGroup>
-      <FormGroup label="Description" htmlFor="description">
-        <TextArea
-          register={register}
-          errors={errors}
-          name="description"
-          required="Description cannot be empty"
-        />
-      </FormGroup>
-      <FormGroup label="Github" htmlFor="github">
-        <TextInput
-          register={register}
-          errors={errors}
-          name="github"
-          required="Github link cannot be empty"
-        />
-      </FormGroup>
-      <FormGroup label="Demo" htmlFor="demo">
-        <TextInput
-          register={register}
-          errors={errors}
-          name="demo"
-          required="Demo link cannot be empty"
-        />
-      </FormGroup>
-      <FileForm
-        label="Upload Image"
-        name="uploadedImage"
-        file={image}
-        setFile={setImage}
-        register={register}
-        errors={errors}
-        required="Image is required"
-      />
-
+    <div>
+      <h2>Do you want to delete this project</h2>
       <div className="flex gap-2">
-        <button className="btn btn-primary" type="submit">
-          Submit
+        <p>{props.project.title}</p>
+        <p>{props.project.description}</p>
+        <p>{props.project.order}</p>
+        <p>{props.project.github}</p>
+        <p>{props.project.demo}</p>
+        <div className="relative w-10 h-10">
+          <Image
+            src={props.project.image.src}
+            alt={props.project.image.alt}
+            fill
+            className="object-cover"
+          />
+        </div>
+      </div>
+      <div className="flex gap-2">
+        <button
+          className="btn btn-primary"
+          onClick={() => props.onSubmit(props.project.id)}
+        >
+          Yes
         </button>
-        <button className="btn btn-attention" type="reset">
-          Cancel
+        <button className="btn btn-secondary" onClick={props.onCancel}>
+          No
         </button>
       </div>
-    </Form>
+    </div>
   );
 }

@@ -173,6 +173,17 @@ export async function updateProject(
   });
 }
 
+export async function deleteProject(projectID: string): Promise<Project> {
+  return await prismaClient.project.delete({
+    where: {
+      id: projectID,
+    },
+    include: {
+      image: true,
+    },
+  });
+}
+
 export async function getProject(projectID: string): Promise<Project> {
   const project = await prismaClient.project.findUnique({
     where: {

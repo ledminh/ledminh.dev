@@ -28,7 +28,7 @@ async function deleteProjectCategory(
     throw new Error(result.errorMessage);
   }
 
-  return result.payload;
+  return result.payload as ProjectCategory;
 }
 
 export default deleteProjectCategory;

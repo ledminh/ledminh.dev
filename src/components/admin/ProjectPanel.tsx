@@ -4,9 +4,8 @@ import Link from "next/link";
 import { Project } from "@/types";
 import { useState } from "react";
 import AddProject from "./AddProject";
-import ProjectCategoryModal from "@/components/modals/Modal.Project.Category";
 import EditProject from "./EditProject";
-import DeleteCategory from "./DeleteCategory";
+import DeleteProject from "./DeleteProject";
 import Image from "next/image";
 
 type Props = {
@@ -51,12 +50,17 @@ export default function ProjectPanel({
     setProjects(newProjects);
   };
 
-  const onDelete = (deletedCategory: Project) => {
-    // const newCategories = categories.filter(
-    //   (category) => category.id !== deletedCategory.id
-    // );
-    // newCategories.sort((a, b) => a.order - b.order);
-    // setCategories(newCategories);
+  const onDelete = (deletedProject: Project) => {
+    const newProjects = projects.filter(
+      (project) => project.id !== deletedProject.id
+    );
+    if (sortedBy === "manual") {
+      newProjects.sort((a, b) => (a.order as number) - (b.order as number));
+    } else {
+      newProjects.sort((a, b) => a.title.localeCompare(b.title));
+    }
+
+    setProjects(newProjects);
   };
 
   return (
@@ -88,7 +92,7 @@ export default function ProjectPanel({
                     sortedBy={sortedBy}
                     categoryID={categoryID}
                   />
-                  {/* <DeleteCategory onDelete={onDelete} category={category} /> */}
+                  <DeleteProject onDelete={onDelete} project={project} />
                 </div>
               </div>
             </li>

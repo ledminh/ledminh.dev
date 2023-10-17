@@ -22,6 +22,7 @@ export default function ProjectProjectModal(
     | {
         type: "delete";
         onSubmit: (id: string) => void;
+        project: Project;
       }
   )
 ) {
@@ -61,6 +62,7 @@ export default function ProjectProjectModal(
           props.onSubmit(id);
           props.setIsOpen(false);
         }}
+        project={props.project}
       />
     );
   }

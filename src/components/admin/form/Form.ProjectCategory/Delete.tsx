@@ -1,15 +1,6 @@
 "use client";
 
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-
 import { ProjectCategory } from "@/types";
-
-import React, { useState } from "react";
-import ToggleButton from "../elements/ToggleButton";
-import TextInput from "../elements/TextInput";
-import TextArea from "../elements/TextArea";
-import Form from "../elements/Form";
-import FormGroup from "../elements/FormGroup";
 
 export default function ProjectCategoryForm(props: {
   category: ProjectCategory;
