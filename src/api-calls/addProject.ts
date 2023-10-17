@@ -16,7 +16,7 @@ async function addProject(
   formData.append("demo", newProject.demo);
   formData.append("image", newProject.image);
 
-  const response = await fetch("/api/project?type=add-project", {
+  const response = await fetch("/api/project/admin?action=add", {
     method: "POST",
     body: formData,
   });

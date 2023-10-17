@@ -67,14 +67,25 @@ export type ProjectRequest =
   | {
       type: "add-project";
       payload: FormData;
+    }
+  | {
+      type: "delete-project";
+      payload: string;
     };
 
-export type ProjectResponse =
+/*********************
+ * API Responses
+ */
+type Response<T> =
   | {
       errorMessage: null;
-      payload: ProjectCategory | Project;
+      payload: T;
     }
   | {
       errorMessage: string;
       payload: null;
     };
+
+export type ProjectResponse = Response<Project>;
+
+export type ProjectCategoryResponse = Response<ProjectCategory>;

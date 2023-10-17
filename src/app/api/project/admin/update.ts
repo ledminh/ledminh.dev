@@ -3,7 +3,7 @@ import { ProjectDB } from "@/data";
 import { NextResponse, NextRequest } from "next/server";
 import { Image, Project } from "@/types";
 
-export default async function updateProject(request: NextRequest) {
+export default async function update(request: NextRequest) {
   const formData = await request.formData();
 
   const projectID = formData.get("id") as string;

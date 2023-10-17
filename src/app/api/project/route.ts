@@ -3,9 +3,9 @@ import type { ProjectResponse, ProjectRequest } from "@/types";
 import addProjectCategory from "./addProjectCategory";
 import updateProjectCategory from "./updateProjectCategory";
 import deleteProjectCategory from "./deleteProjectCategory";
-import addProject from "./addProject";
-import updateProject from "./updateProject";
-import deleteProject from "./deleteProject";
+import addProject from "./admin/add";
+import updateProject from "./admin/update";
+import deleteProject from "./admin/del";
 
 export async function POST(
   request: NextRequest

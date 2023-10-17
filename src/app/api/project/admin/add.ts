@@ -3,7 +3,7 @@ import { ProjectDB } from "@/data";
 import { NextResponse, NextRequest } from "next/server";
 import { Project } from "@/types";
 
-export default async function addProject(request: NextRequest) {
+export default async function add(request: NextRequest) {
   const formData = await request.formData();
 
   const image = formData.get("image") as File;

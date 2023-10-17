@@ -1,16 +1,19 @@
 import isImageType from "@/utils/isImageType";
 
-import type { Project, ProjectResponse } from "@/types";
+import type { Project, ProjectResponse, ProjectRequest } from "@/types";
 
-async function updateProject(deletedProjectID: string): Promise<Project> {
-  const response = await fetch("/api/project?type=delete-project", {
+async function deleteProject(deletedProjectID: string): Promise<Project> {
+  const request: ProjectRequest = {
+    type: "delete-project",
+    payload: deletedProjectID,
+  };
+
+  const response = await fetch("/api/project/admin?action=delete", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      id: deletedProjectID,
-    }),
+    body: JSON.stringify(request),
   });
 
   if (!response.ok) {
@@ -26,4 +29,4 @@ async function updateProject(deletedProjectID: string): Promise<Project> {
   return result.payload as Project;
 }
 
-export default updateProject;
+export default deleteProject;

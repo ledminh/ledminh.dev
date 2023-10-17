@@ -25,7 +25,7 @@ async function updateProject(
       : editedProject.image
   );
 
-  const response = await fetch("/api/project?type=update-project", {
+  const response = await fetch("/api/project/admin?action=update", {
     method: "POST",
     body: formData,
   });
