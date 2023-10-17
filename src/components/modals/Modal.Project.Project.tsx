@@ -1,7 +1,7 @@
 import ProjectForm from "@/components/admin/form/Form.Project";
 
 import ProjectModal from "./Modal.Project";
-import { NewProject } from "@/types";
+import { EditedProjectData, Image, NewProject, Project } from "@/types";
 
 export default function ProjectProjectModal(
   props: {
@@ -15,15 +15,9 @@ export default function ProjectProjectModal(
       }
     | {
         type: "edit";
-        onSubmit: (data: {
-          id: string;
-          order: number;
-          title: string;
-          description: string;
-          github: string;
-          demo: string;
-          image: File;
-        }) => void;
+        onSubmit: (data: EditedProjectData) => void;
+        initialData: Project;
+        sortedBy: "auto" | "manual";
       }
     | {
         type: "delete";
@@ -54,6 +48,8 @@ export default function ProjectProjectModal(
           props.onSubmit(data);
           props.setIsOpen(false);
         }}
+        initialData={props.initialData}
+        sortedBy={props.sortedBy}
       />
     );
   } else {

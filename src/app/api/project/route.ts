@@ -4,6 +4,7 @@ import addProjectCategory from "./addProjectCategory";
 import updateProjectCategory from "./updateProjectCategory";
 import deleteProjectCategory from "./deleteProjectCategory";
 import addProject from "./addProject";
+import updateProject from "./updateProject";
 
 export async function POST(
   request: NextRequest
@@ -16,6 +17,8 @@ export async function POST(
       switch (typeParam) {
         case "add-project":
           return addProject(request);
+        case "update-project":
+          return updateProject(request);
         default:
           throw new Error("type not found");
       }

@@ -43,6 +43,10 @@ export type NewProject = Omit<Project, "id" | "image"> & {
   image: File;
 };
 
+export type EditedProjectData = Omit<Project, "image"> & {
+  image: Image | File;
+};
+
 /*************************
  * API Calls
  */

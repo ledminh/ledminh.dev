@@ -103,6 +103,20 @@ export async function addImage(image: Omit<Image, "id">): Promise<Image> {
   };
 }
 
+export async function deleteImage(image: Image): Promise<Image> {
+  const returnedImage = await prismaClient.image.delete({
+    where: {
+      id: image.id,
+    },
+  });
+
+  return {
+    id: returnedImage.id,
+    src: returnedImage.src,
+    alt: returnedImage.alt,
+  };
+}
+
 export async function addProject(
   categoryID: string,
   newProjectData: Omit<Project, "id">
@@ -126,6 +140,54 @@ export async function addProject(
       image: true,
     },
   });
+}
+
+export async function updateProject(
+  categoryID: string,
+  editedProjectData: Project
+): Promise<Project> {
+  return prismaClient.project.update({
+    where: {
+      id: editedProjectData.id,
+    },
+    data: {
+      order: editedProjectData.order,
+      title: editedProjectData.title,
+      description: editedProjectData.description,
+      github: editedProjectData.github,
+      demo: editedProjectData.demo,
+      category: {
+        connect: {
+          id: categoryID,
+        },
+      },
+      image: {
+        connect: {
+          id: editedProjectData.image.id,
+        },
+      },
+    },
+    include: {
+      image: true,
+    },
+  });
+}
+
+export async function getProject(projectID: string): Promise<Project> {
+  const project = await prismaClient.project.findUnique({
+    where: {
+      id: projectID,
+    },
+    include: {
+      image: true,
+    },
+  });
+
+  if (!project) {
+    throw new Error("Project not found");
+  }
+
+  return project;
 }
 
 /*************************************

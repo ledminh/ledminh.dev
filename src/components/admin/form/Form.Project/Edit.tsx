@@ -10,20 +10,18 @@ import Form from "../elements/Form";
 import FormGroup from "../elements/FormGroup";
 import FileForm from "../elements/FileForm";
 import NumberInput from "../elements/NumberInput";
+import { EditedProjectData, Image, Project } from "@/types";
 
-export default function ProjectCategoryForm(props: {
+export default function ProjectEditForm(props: {
+  sortedBy: "auto" | "manual";
+
   onCancel: () => void;
-  onSubmit: (data: {
-    id: string;
-    order: number;
-    title: string;
-    description: string;
-    github: string;
-    demo: string;
-    image: File;
-  }) => void;
+  onSubmit: (data: EditedProjectData) => void;
+  initialData: Project;
 }) {
-  const [image, setImage] = useState<File | null>(null);
+  const [image, setImage] = useState<File | Image | null>(
+    props.initialData.image
+  );
 
   const {
     handleSubmit,
@@ -45,7 +43,7 @@ export default function ProjectCategoryForm(props: {
       description: data.description,
       github: data.github,
       demo: data.demo,
-      image: image as File,
+      image: image as File | Image,
     });
 
     reset(e);
@@ -58,20 +56,24 @@ export default function ProjectCategoryForm(props: {
 
   return (
     <Form onSubmit={handleSubmit(_onSubmit)} onReset={_onCancel}>
-      <FormGroup label="Order" htmlFor="order">
-        <NumberInput
-          register={register}
-          errors={errors}
-          name="order"
-          required="Order cannot be empty"
-        />
-      </FormGroup>
+      {props.sortedBy === "manual" && (
+        <FormGroup label="Order" htmlFor="order">
+          <NumberInput
+            register={register}
+            errors={errors}
+            name="order"
+            required="Order cannot be empty"
+            defaultValue={"" + (props.initialData.order as number)}
+          />
+        </FormGroup>
+      )}
       <FormGroup label="Title" htmlFor="title">
         <TextInput
           register={register}
           errors={errors}
           name="title"
           required="Title cannot be empty"
+          defaultValue={props.initialData.title}
         />
       </FormGroup>
       <FormGroup label="Description" htmlFor="description">
@@ -80,6 +82,7 @@ export default function ProjectCategoryForm(props: {
           errors={errors}
           name="description"
           required="Description cannot be empty"
+          defaultValue={props.initialData.description}
         />
       </FormGroup>
       <FormGroup label="Github" htmlFor="github">
@@ -88,6 +91,7 @@ export default function ProjectCategoryForm(props: {
           errors={errors}
           name="github"
           required="Github link cannot be empty"
+          defaultValue={props.initialData.github}
         />
       </FormGroup>
       <FormGroup label="Demo" htmlFor="demo">
@@ -96,6 +100,7 @@ export default function ProjectCategoryForm(props: {
           errors={errors}
           name="demo"
           required="Demo link cannot be empty"
+          defaultValue={props.initialData.demo}
         />
       </FormGroup>
       <FileForm

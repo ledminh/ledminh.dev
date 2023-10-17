@@ -5,7 +5,7 @@ import { Project } from "@/types";
 import { useState } from "react";
 import AddProject from "./AddProject";
 import ProjectCategoryModal from "@/components/modals/Modal.Project.Category";
-import EditCategory from "./EditCategory";
+import EditProject from "./EditProject";
 import DeleteCategory from "./DeleteCategory";
 import Image from "next/image";
 
@@ -35,14 +35,20 @@ export default function ProjectPanel({
   };
 
   const onEdit = (editedProject: Project) => {
-    // const newCategories = categories.map((category) => {
-    //   if (category.id === editedCategory.id) {
-    //     return editedCategory;
-    //   }
-    //   return category;
-    // });
-    // newCategories.sort((a, b) => a.order - b.order);
-    // setCategories(newCategories);
+    const newProjects = projects.map((project) => {
+      if (project.id === editedProject.id) {
+        return editedProject;
+      }
+      return project;
+    });
+
+    if (sortedBy === "manual") {
+      newProjects.sort((a, b) => (a.order as number) - (b.order as number));
+    } else {
+      newProjects.sort((a, b) => a.title.localeCompare(b.title));
+    }
+
+    setProjects(newProjects);
   };
 
   const onDelete = (deletedCategory: Project) => {
@@ -75,10 +81,15 @@ export default function ProjectPanel({
                     className="object-fill"
                   />
                 </div>
-                {/* <div className="flex gap-2">
-                  <EditCategory onEdit={onEdit} category={category} />
-                  <DeleteCategory onDelete={onDelete} category={category} />
-                </div> */}
+                <div className="flex gap-2">
+                  <EditProject
+                    onEdit={onEdit}
+                    project={project}
+                    sortedBy={sortedBy}
+                    categoryID={categoryID}
+                  />
+                  {/* <DeleteCategory onDelete={onDelete} category={category} /> */}
+                </div>
               </div>
             </li>
           );

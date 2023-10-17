@@ -1,3 +1,5 @@
+import { Image as ImageType } from "@/types";
+import isImageType from "@/utils/isImageType";
 import Image from "next/image";
 
 import { FieldValues, FieldErrors, UseFormRegister } from "react-hook-form";
@@ -5,7 +7,7 @@ import { FieldValues, FieldErrors, UseFormRegister } from "react-hook-form";
 const FileForm = (props: {
   label: string;
   name: string;
-  file: File | null;
+  file: File | ImageType | null;
   setFile: (file: File | null) => void;
   required: string | boolean;
   errors: FieldErrors<FieldValues>;
@@ -38,7 +40,11 @@ const FileForm = (props: {
         <div className="flex flex-col gap-2 justify-center items-center">
           <div className="relative h-40 w-40">
             <Image
-              src={URL.createObjectURL(props.file)}
+              src={
+                isImageType(props.file)
+                  ? props.file.src
+                  : URL.createObjectURL(props.file)
+              }
               alt="new image"
               fill
               className="rounded-md object-cover"
