@@ -8,12 +8,7 @@ export default async function add(request: NextRequest) {
 
   const image = formData.get("image") as File;
 
-  const { imagePath, error } = await uploadImage(
-    "projects",
-    "images",
-    image.name.split(".")[0],
-    image
-  );
+  const { imagePath, error } = await uploadImage("projects", "images", image);
 
   if (error) {
     throw new Error(error.message);

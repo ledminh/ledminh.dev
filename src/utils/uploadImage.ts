@@ -13,9 +13,9 @@ const supabase = createClient(
 export default async function uploadImage(
   bucket: string,
   directory: string,
-  fileName: string,
   image: File
 ) {
+  const fileName = image.name.split(".")[0] + "_" + Date.now();
   const fileType = image.name.split(".")[1];
   const filePath = `${directory}/${fileName}.${
     fileType === "jpeg" ? "jpg" : fileType

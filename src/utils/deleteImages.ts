@@ -14,9 +14,12 @@ export default async function deleteImages(
   bucket: string
 ) {
   const filePaths = fileNames.map((fileName) => {
-    const fileType = fileName.split(".")[1];
-    return `${directory}/${fileName}.${fileType === "jpeg" ? "jpg" : fileType}`;
+    const type = fileName.split(".")[1];
+    const name = fileName.split(".")[0];
+    return `${directory}/${name}.${type === "jpeg" ? "jpg" : type}`;
   });
+
+  console.log(filePaths);
 
   return supabase.storage.from(bucket).remove(filePaths);
 }

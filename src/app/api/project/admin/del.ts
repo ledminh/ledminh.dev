@@ -17,17 +17,13 @@ export default async function deleteProject(request: NextRequest) {
   if (!deletedProject) {
     throw new Error("Project not found");
   }
+  const delImageResult = deleteImages(
+    [deletedProject.image.src.split("/").pop() as string],
+    "images",
+    "projects"
+  );
 
-  const [dbImage, image] = await Promise.all([
-    ProjectDB.deleteImage(deletedProject.image),
-    deleteImages(
-      [deletedProject.image.src.split("/").pop() as string],
-      "images",
-      "projects"
-    ),
-  ]);
-
-  if (!dbImage || !image) {
+  if (!delImageResult) {
     throw new Error("Error deleting image");
   }
 

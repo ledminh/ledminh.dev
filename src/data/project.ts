@@ -121,7 +121,7 @@ export async function addProject(
   categoryID: string,
   newProjectData: Omit<Project, "id">
 ): Promise<Project> {
-  return await prismaClient.project.create({
+  const newProject = await prismaClient.project.create({
     data: {
       ...newProjectData,
       category: {
@@ -140,13 +140,18 @@ export async function addProject(
       image: true,
     },
   });
+
+  return {
+    ...newProject,
+    image: newProject.image as Image,
+  };
 }
 
 export async function updateProject(
   categoryID: string,
   editedProjectData: Project
 ): Promise<Project> {
-  return prismaClient.project.update({
+  const updatedProject = await prismaClient.project.update({
     where: {
       id: editedProjectData.id,
     },
@@ -171,17 +176,46 @@ export async function updateProject(
       image: true,
     },
   });
+
+  return {
+    ...updatedProject,
+    image: updatedProject.image as Image,
+  };
 }
 
-export async function deleteProject(projectID: string): Promise<Project> {
-  return await prismaClient.project.delete({
+export async function deleteProject(projectID: string): Promise<string> {
+  const project = await prismaClient.project.findUnique({
     where: {
       id: projectID,
     },
-    include: {
-      image: true,
+  });
+
+  if (!project) {
+    throw new Error("Project not found");
+  }
+
+  await prismaClient.image.delete({
+    where: {
+      id: project.imageId as string,
     },
   });
+
+  const updatedProject = await prismaClient.project.update({
+    where: {
+      id: projectID,
+    },
+    data: {
+      imageId: undefined,
+    },
+  });
+
+  const deletedProject = await prismaClient.project.delete({
+    where: {
+      id: projectID,
+    },
+  });
+
+  return deletedProject.id;
 }
 
 export async function getProject(projectID: string): Promise<Project> {
@@ -198,7 +232,10 @@ export async function getProject(projectID: string): Promise<Project> {
     throw new Error("Project not found");
   }
 
-  return project;
+  return {
+    ...project,
+    image: project.image as Image,
+  };
 }
 
 /*************************************
