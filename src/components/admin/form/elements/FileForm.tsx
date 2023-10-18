@@ -8,7 +8,7 @@ const FileForm = (props: {
   label: string;
   name: string;
   file: File | ImageType | null;
-  setFile: (file: File | null) => void;
+  setFile: (file: File | ImageType | null) => void;
   required: string | boolean;
   errors: FieldErrors<FieldValues>;
   register: UseFormRegister<FieldValues>;
@@ -23,7 +23,10 @@ const FileForm = (props: {
           type="file"
           id={props.name}
           {...props.register(props.name, {
-            required: props.required,
+            required:
+              props.file !== null && isImageType(props.file)
+                ? false
+                : props.required,
           })}
           className="hidden"
           onChange={(e) => {

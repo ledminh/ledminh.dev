@@ -2,6 +2,7 @@ import uploadImage from "@/utils/uploadImage";
 import { ProjectDB } from "@/data";
 import { NextResponse, NextRequest } from "next/server";
 import { Image, Project } from "@/types";
+import deleteImages from "@/utils/deleteImages";
 
 export default async function update(request: NextRequest) {
   const formData = await request.formData();
@@ -15,12 +16,8 @@ export default async function update(request: NextRequest) {
   let imageData: Image;
 
   if (typeof image !== "string") {
-    const { imagePath, error } = await uploadImage(
-      "projects",
-      "images",
-      image.name.split(".")[0],
-      image
-    );
+    // upload image
+    const { imagePath, error } = await uploadImage("projects", "images", image);
 
     if (error) {
       throw new Error(error.message);
@@ -31,7 +28,18 @@ export default async function update(request: NextRequest) {
       alt: `Project image for ${formData.get("title")}`,
     });
 
+    // delete old image
     await ProjectDB.deleteImage(oldProject.image);
+
+    const delImageResult = deleteImages(
+      [oldProject.image.src.split("/").pop() as string],
+      "images",
+      "projects"
+    );
+
+    if (!delImageResult) {
+      throw new Error("Error deleting image");
+    }
   } else {
     imageData = oldProject.image;
   }

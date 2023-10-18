@@ -31,7 +31,7 @@ async function updateProject(
   });
 
   if (!response.ok) {
-    throw new Error(`Failed to add project: ${response.statusText}`);
+    throw new Error(`Failed to update project: ${response.statusText}`);
   }
 
   const result = (await response.json()) as ProjectResponse;

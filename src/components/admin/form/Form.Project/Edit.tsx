@@ -37,7 +37,7 @@ export default function ProjectEditForm(props: {
 
   const _onSubmit: SubmitHandler<FieldValues> = (data, e) => {
     props.onSubmit({
-      id: data.id,
+      id: props.initialData.id,
       order: parseInt(data.order),
       title: data.title,
       description: data.description,
