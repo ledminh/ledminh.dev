@@ -7,27 +7,34 @@ import EditProject from "./EditProject";
 import DeleteProject from "./DeleteProject";
 import Image from "next/image";
 import sortProjects from "@/utils/sortProjects";
+import getCategoryWithProjects from "@/api-calls/getCategoryWithProjects";
 
 type Props = {
-  initProjects: Project[];
-  sortedBy: "auto" | "manual";
   categoryID: string;
 };
 
-export default function ProjectPanel({
-  initProjects,
-  sortedBy,
-  categoryID,
-}: Props) {
-  const [projects, setProjects] = useState(initProjects);
+export default function ProjectPanel({ categoryID }: Props) {
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [sortedBy, setSortedBy] = useState<"auto" | "manual">("manual");
+  const [categoryTitle, setCategoryTitle] = useState<string>("");
 
   useEffect(() => {
-    const newProjectsSorted = sortProjects(projects, sortedBy);
+    getCategoryWithProjects(categoryID)
+      .then((category) => {
+        setCategoryTitle(category.title);
+        setSortedBy(category.sortedBy);
 
-    setProjects(newProjectsSorted);
+        const newProjectsSorted = sortProjects(
+          category.projects,
+          category.sortedBy
+        );
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sortedBy]);
+        setProjects(newProjectsSorted);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [categoryID]);
 
   const onAdd = (newProject: Project) => {
     const newProjects = sortProjects([...projects, newProject], sortedBy);
@@ -61,6 +68,7 @@ export default function ProjectPanel({
   return (
     <div>
       <h1>Project Panel</h1>
+      <h2>Category: {categoryTitle}</h2>
       <AddProject onAdd={onAdd} sortedBy={sortedBy} categoryID={categoryID} />
 
       <div className="bg-blue-300">

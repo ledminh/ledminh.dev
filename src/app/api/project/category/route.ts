@@ -1,10 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
-import type { ProjectCategoriesResponse } from "@/types";
+import type {
+  ProjectCategoriesResponse,
+  ProjectCategoryWithProjectsResponse,
+} from "@/types";
 import getAll from "./getAll";
+import getOne from "./getOne";
 
 export async function GET(
   request: NextRequest
-): Promise<NextResponse<ProjectCategoriesResponse>> {
+): Promise<
+  NextResponse<ProjectCategoriesResponse | ProjectCategoryWithProjectsResponse>
+> {
   try {
     const action = request.nextUrl.searchParams.get("action");
 
@@ -15,6 +21,8 @@ export async function GET(
     switch (action) {
       case "get-all":
         return getAll();
+      case "get-one":
+        return getOne(request.nextUrl.searchParams.get("id") as string);
       default:
         throw new Error("action not found");
     }

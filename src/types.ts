@@ -87,4 +87,6 @@ type Response<T> =
 export type ProjectResponse = Response<Project>;
 
 export type ProjectCategoryResponse = Response<ProjectCategory>;
+export type ProjectCategoryWithProjectsResponse =
+  Response<ProjectCategoryWithProjects>;
 export type ProjectCategoriesResponse = Response<ProjectCategory[]>;
