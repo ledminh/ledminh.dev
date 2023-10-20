@@ -8,7 +8,7 @@ export default async function ProjectsAdminPage() {
     <div>
       <h1>Project Categories Admin Page</h1>
 
-      <CategoryPanel initCategories={projectCategories} />
+      <CategoryPanel />
     </div>
   );
 }

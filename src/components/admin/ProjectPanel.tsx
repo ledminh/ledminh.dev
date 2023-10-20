@@ -6,6 +6,7 @@ import AddProject from "./AddProject";
 import EditProject from "./EditProject";
 import DeleteProject from "./DeleteProject";
 import Image from "next/image";
+import sortProjects from "@/utils/sortProjects";
 
 type Props = {
   initProjects: Project[];
@@ -21,26 +22,15 @@ export default function ProjectPanel({
   const [projects, setProjects] = useState(initProjects);
 
   useEffect(() => {
-    if (sortedBy === "manual") {
-      const newProjects = [...projects];
-      newProjects.sort((a, b) => (a.order as number) - (b.order as number));
-      setProjects(newProjects);
-    } else {
-      const newProjects = [...projects];
-      newProjects.sort((a, b) => a.title.localeCompare(b.title));
-      setProjects(newProjects);
-    }
+    const newProjectsSorted = sortProjects(projects, sortedBy);
+
+    setProjects(newProjectsSorted);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sortedBy, initProjects]);
+  }, [sortedBy]);
 
   const onAdd = (newProject: Project) => {
-    const newProjects = [...projects, newProject];
-
-    if (sortedBy === "auto") {
-      newProjects.sort((a, b) => a.title.localeCompare(b.title));
-    } else {
-      newProjects.sort((a, b) => (a.order as number) - (b.order as number));
-    }
+    const newProjects = sortProjects([...projects, newProject], sortedBy);
 
     setProjects(newProjects);
   };
@@ -53,32 +43,29 @@ export default function ProjectPanel({
       return project;
     });
 
-    if (sortedBy === "manual") {
-      newProjects.sort((a, b) => (a.order as number) - (b.order as number));
-    } else {
-      newProjects.sort((a, b) => a.title.localeCompare(b.title));
-    }
+    const newProjectsSorted = sortProjects(newProjects, sortedBy);
 
-    setProjects(newProjects);
+    setProjects(newProjectsSorted);
   };
 
   const onDelete = (deletedProject: Project) => {
     const newProjects = projects.filter(
       (project) => project.id !== deletedProject.id
     );
-    if (sortedBy === "manual") {
-      newProjects.sort((a, b) => (a.order as number) - (b.order as number));
-    } else {
-      newProjects.sort((a, b) => a.title.localeCompare(b.title));
-    }
 
-    setProjects(newProjects);
+    const newProjectsSorted = sortProjects(newProjects, sortedBy);
+
+    setProjects(newProjectsSorted);
   };
 
   return (
     <div>
       <h1>Project Panel</h1>
       <AddProject onAdd={onAdd} sortedBy={sortedBy} categoryID={categoryID} />
+
+      <div className="bg-blue-300">
+        <p>Sorted by: {sortedBy}</p>
+      </div>
       <ul className="flex gap-2">
         {projects.map((project) => {
           return (
@@ -86,7 +73,9 @@ export default function ProjectPanel({
               <div className="border border-blue-900 block p-2 hover:bg-gray-300">
                 <p>{project.title}</p>
                 <p>{project.description}</p>
-                <p>{project.order}</p>
+                {sortedBy === "manual" && (
+                  <p className="bg-red-200">{project.order}</p>
+                )}
                 <p>{project.github}</p>
                 <p>{project.demo}</p>
                 <div className="relative w-10 h-10">

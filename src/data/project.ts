@@ -45,20 +45,8 @@ export async function updateProjectCategory(
     throw new Error("Category not found");
   }
 
-  if (oldCategory.sortedBy === "manual" && editedCategory.sortedBy === "auto") {
-    await prismaClient.project.updateMany({
-      where: {
-        categoryId: editedCategory.id,
-      },
-      data: {
-        order: undefined,
-      },
-    });
-  } else if (
-    oldCategory.sortedBy === "auto" &&
-    editedCategory.sortedBy === "manual"
-  ) {
-    await prismaClient.project.updateMany({
+  if (oldCategory.sortedBy === "auto" && editedCategory.sortedBy === "manual") {
+    prismaClient.project.updateMany({
       where: {
         categoryId: editedCategory.id,
       },
@@ -284,9 +272,6 @@ export async function getCategoryWithProjects(
     },
     include: {
       projects: {
-        orderBy: {
-          order: "asc",
-        },
         include: {
           image: true,
         },
@@ -302,10 +287,6 @@ export async function getCategoryWithProjects(
     ...project,
     image: project.image as Image,
   }));
-
-  if (category.sortedBy === "manual") {
-    projects.sort((a, b) => (a.order as number) - (b.order as number));
-  }
 
   return {
     ...category,

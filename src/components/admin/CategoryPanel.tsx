@@ -6,20 +6,21 @@ import { useEffect, useState } from "react";
 import AddCategory from "./AddCategory";
 import EditCategory from "./EditCategory";
 import DeleteCategory from "./DeleteCategory";
+import getProjectCategories from "@/api-calls/getProjectCategories";
 
-type Props = {
-  initCategories: ProjectCategory[];
-};
-
-export default function CategoryPanel({ initCategories }: Props) {
-  const [categories, setCategories] = useState(initCategories);
+export default function CategoryPanel() {
+  const [categories, setCategories] = useState<ProjectCategory[]>([]);
 
   useEffect(() => {
-    const newCategories = [...initCategories];
-    newCategories.sort((a, b) => a.order - b.order);
-
-    setCategories(newCategories);
-  }, [initCategories]);
+    getProjectCategories()
+      .then((categories) => {
+        categories.sort((a, b) => a.order - b.order);
+        setCategories(categories);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
   const onAdd = (newCategory: ProjectCategory) => {
     const newCategories = [...categories, newCategory];
