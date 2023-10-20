@@ -19,7 +19,5 @@ export default async function deleteImages(
     return `${directory}/${name}.${type === "jpeg" ? "jpg" : type}`;
   });
 
-  console.log(filePaths);
-
   return supabase.storage.from(bucket).remove(filePaths);
 }

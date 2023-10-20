@@ -19,21 +19,17 @@ export default function ProjectPanel({ categoryID }: Props) {
   const [categoryTitle, setCategoryTitle] = useState<string>("");
 
   useEffect(() => {
-    getCategoryWithProjects(categoryID)
-      .then((category) => {
-        setCategoryTitle(category.title);
-        setSortedBy(category.sortedBy);
+    getCategoryWithProjects(categoryID).then((category) => {
+      setCategoryTitle(category.title);
+      setSortedBy(category.sortedBy);
 
-        const newProjectsSorted = sortProjects(
-          category.projects,
-          category.sortedBy
-        );
+      const newProjectsSorted = sortProjects(
+        category.projects,
+        category.sortedBy
+      );
 
-        setProjects(newProjectsSorted);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+      setProjects(newProjectsSorted);
+    });
   }, [categoryID]);
 
   const onAdd = (newProject: Project) => {
@@ -74,7 +70,7 @@ export default function ProjectPanel({ categoryID }: Props) {
       <div className="bg-blue-300">
         <p>Sorted by: {sortedBy}</p>
       </div>
-      <ul className="flex gap-2">
+      <ul className="flex gap-2 flex-wrap">
         {projects.map((project) => {
           return (
             <li key={project.id}>

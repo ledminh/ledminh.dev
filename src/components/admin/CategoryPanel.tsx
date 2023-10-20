@@ -12,14 +12,10 @@ export default function CategoryPanel() {
   const [categories, setCategories] = useState<ProjectCategory[]>([]);
 
   useEffect(() => {
-    getProjectCategories()
-      .then((categories) => {
-        categories.sort((a, b) => a.order - b.order);
-        setCategories(categories);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    getProjectCategories().then((categories) => {
+      categories.sort((a, b) => a.order - b.order);
+      setCategories(categories);
+    });
   }, []);
 
   const onAdd = (newCategory: ProjectCategory) => {
