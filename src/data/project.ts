@@ -20,7 +20,7 @@ export async function addProjectCategory(
   newCategory: NewProjectCategory
 ): Promise<ProjectCategory> {
   const returnedCategory = await prismaClient.projectCategory.create({
-    data: newCategory,
+    data: { ...newCategory, numProjects: 0 },
   });
 
   return {
@@ -28,6 +28,7 @@ export async function addProjectCategory(
     order: returnedCategory.order,
     title: returnedCategory.title,
     description: returnedCategory.description,
+    numProjects: returnedCategory.numProjects,
     sortedBy: returnedCategory.sortedBy as "auto" | "manual",
   };
 }
@@ -73,6 +74,7 @@ export async function updateProjectCategory(
     order: returnedCategory.order,
     title: returnedCategory.title,
     description: returnedCategory.description,
+    numProjects: returnedCategory.numProjects,
     sortedBy: returnedCategory.sortedBy as "auto" | "manual",
   };
 }
@@ -91,16 +93,30 @@ export async function deleteProjectCategory(
     order: returnedCategory.order,
     title: returnedCategory.title,
     description: returnedCategory.description,
+    numProjects: returnedCategory.numProjects,
     sortedBy: returnedCategory.sortedBy as "auto" | "manual",
   };
 }
 
-export async function getCategories(): Promise<ProjectCategory[]> {
+export async function getCategories(props: {
+  withProjects: boolean;
+}): Promise<ProjectCategory[]> {
   return (
     await prismaClient.projectCategory.findMany({
       orderBy: {
         order: "asc",
       },
+      ...(props.withProjects
+        ? {
+            include: {
+              projects: {
+                include: {
+                  image: true,
+                },
+              },
+            },
+          }
+        : {}),
     })
   ).map((category) => ({
     ...category,
@@ -159,6 +175,17 @@ export async function addProject(
 
     include: {
       image: true,
+    },
+  });
+
+  await prismaClient.projectCategory.update({
+    where: {
+      id: categoryID,
+    },
+    data: {
+      numProjects: {
+        increment: 1,
+      },
     },
   });
 
@@ -233,6 +260,21 @@ export async function deleteProject(projectID: string): Promise<string> {
   const deletedProject = await prismaClient.project.delete({
     where: {
       id: projectID,
+    },
+  });
+
+  if (!deletedProject) {
+    throw new Error("Project not found");
+  }
+
+  await prismaClient.projectCategory.update({
+    where: {
+      id: deletedProject.categoryId,
+    },
+    data: {
+      numProjects: {
+        decrement: 1,
+      },
     },
   });
 

@@ -20,7 +20,10 @@ export async function GET(
 
     switch (action) {
       case "get-all":
-        return getAll();
+        return getAll({
+          withProjects:
+            request.nextUrl.searchParams.get("with-projects") === "true",
+        });
       case "get-one":
         return getOne(request.nextUrl.searchParams.get("id") as string);
       default:

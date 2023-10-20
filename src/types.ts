@@ -21,6 +21,7 @@ export interface ProjectCategory extends Entity {
   order: number;
   title: string;
   description: string;
+  numProjects: number;
   sortedBy: "auto" | "manual";
 }
 
@@ -28,7 +29,7 @@ export interface ProjectCategoryWithProjects extends ProjectCategory {
   projects: Project[];
 }
 
-export type NewProjectCategory = Omit<ProjectCategory, "id">;
+export type NewProjectCategory = Omit<ProjectCategory, "id" | "numProjects">;
 
 export interface Project extends Entity {
   order: number | null;

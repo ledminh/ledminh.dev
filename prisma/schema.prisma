@@ -17,6 +17,7 @@ model ProjectCategory {
   title       String
   description String
   projects    Project[]
+  numProjects Int
   sortedBy    String
 }
 

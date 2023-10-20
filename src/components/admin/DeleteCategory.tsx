@@ -15,6 +15,7 @@ export default function DeleteCategory({ onDelete, category }: Props) {
     <>
       <button
         className="btn btn-secondary"
+        disabled={category.numProjects > 0}
         onClick={(e) => {
           e.preventDefault();
           setIsModalOpen(true);

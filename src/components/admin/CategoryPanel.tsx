@@ -12,7 +12,9 @@ export default function CategoryPanel() {
   const [categories, setCategories] = useState<ProjectCategory[]>([]);
 
   useEffect(() => {
-    getProjectCategories().then((categories) => {
+    getProjectCategories({
+      withProjects: true,
+    }).then((categories) => {
       categories.sort((a, b) => a.order - b.order);
       setCategories(categories);
     });
@@ -65,6 +67,7 @@ export default function CategoryPanel() {
                 <p>{category.description}</p>
                 <p>{category.order}</p>
                 <p>{category.sortedBy}</p>
+                <p>numProjects: {category.numProjects}</p>
                 <div className="flex gap-2">
                   <EditCategory onEdit={onEdit} category={category} />
                   <DeleteCategory onDelete={onDelete} category={category} />
