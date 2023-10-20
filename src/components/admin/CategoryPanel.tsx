@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { ProjectCategory } from "@/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddCategory from "./AddCategory";
 import EditCategory from "./EditCategory";
 import DeleteCategory from "./DeleteCategory";
@@ -13,6 +13,13 @@ type Props = {
 
 export default function CategoryPanel({ initCategories }: Props) {
   const [categories, setCategories] = useState(initCategories);
+
+  useEffect(() => {
+    const newCategories = [...initCategories];
+    newCategories.sort((a, b) => a.order - b.order);
+
+    setCategories(newCategories);
+  }, [initCategories]);
 
   const onAdd = (newCategory: ProjectCategory) => {
     const newCategories = [...categories, newCategory];

@@ -1,8 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { Project } from "@/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddProject from "./AddProject";
 import EditProject from "./EditProject";
 import DeleteProject from "./DeleteProject";
@@ -20,6 +19,19 @@ export default function ProjectPanel({
   categoryID,
 }: Props) {
   const [projects, setProjects] = useState(initProjects);
+
+  useEffect(() => {
+    if (sortedBy === "manual") {
+      const newProjects = [...projects];
+      newProjects.sort((a, b) => (a.order as number) - (b.order as number));
+      setProjects(newProjects);
+    } else {
+      const newProjects = [...projects];
+      newProjects.sort((a, b) => a.title.localeCompare(b.title));
+      setProjects(newProjects);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sortedBy, initProjects]);
 
   const onAdd = (newProject: Project) => {
     const newProjects = [...projects, newProject];
@@ -71,7 +83,7 @@ export default function ProjectPanel({
         {projects.map((project) => {
           return (
             <li key={project.id}>
-              <div className="border border-black block p-2 hover:bg-gray-300">
+              <div className="border border-blue-900 block p-2 hover:bg-gray-300">
                 <p>{project.title}</p>
                 <p>{project.description}</p>
                 <p>{project.order}</p>

@@ -35,6 +35,39 @@ export async function addProjectCategory(
 export async function updateProjectCategory(
   editedCategory: ProjectCategory
 ): Promise<ProjectCategory> {
+  const oldCategory = await prismaClient.projectCategory.findUnique({
+    where: {
+      id: editedCategory.id,
+    },
+  });
+
+  if (!oldCategory) {
+    throw new Error("Category not found");
+  }
+
+  if (oldCategory.sortedBy === "manual" && editedCategory.sortedBy === "auto") {
+    await prismaClient.project.updateMany({
+      where: {
+        categoryId: editedCategory.id,
+      },
+      data: {
+        order: undefined,
+      },
+    });
+  } else if (
+    oldCategory.sortedBy === "auto" &&
+    editedCategory.sortedBy === "manual"
+  ) {
+    await prismaClient.project.updateMany({
+      where: {
+        categoryId: editedCategory.id,
+      },
+      data: {
+        order: 0,
+      },
+    });
+  }
+
   const returnedCategory = await prismaClient.projectCategory.update({
     where: {
       id: editedCategory.id,
@@ -200,7 +233,7 @@ export async function deleteProject(projectID: string): Promise<string> {
     },
   });
 
-  const updatedProject = await prismaClient.project.update({
+  await prismaClient.project.update({
     where: {
       id: projectID,
     },
