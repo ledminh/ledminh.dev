@@ -4,6 +4,7 @@ import {
   ProjectCategory,
   ProjectCategoryWithProjects,
   Project,
+  Order,
 } from "@/types";
 
 import prismaClient from "./prismaClient";
@@ -77,6 +78,44 @@ export async function updateProjectCategory(
     numProjects: returnedCategory.numProjects,
     sortedBy: returnedCategory.sortedBy as "auto" | "manual",
   };
+}
+
+export async function updateProjectCategoriesOrder(
+  orders: Order[]
+): Promise<ProjectCategory[]> {
+  const categories = await prismaClient.projectCategory.findMany({
+    orderBy: {
+      order: "asc",
+    },
+  });
+
+  const updatedCategories = await Promise.all(
+    orders.map(async (order) => {
+      const category = categories.find((c) => c.id === order.id);
+
+      if (!category) {
+        throw new Error("Category not found");
+      }
+
+      return await prismaClient.projectCategory.update({
+        where: {
+          id: order.id,
+        },
+        data: {
+          order: order.order,
+        },
+      });
+    })
+  );
+
+  return updatedCategories.map((category) => ({
+    id: category.id,
+    order: category.order,
+    title: category.title,
+    description: category.description,
+    numProjects: category.numProjects,
+    sortedBy: category.sortedBy as "auto" | "manual",
+  }));
 }
 
 export async function deleteProjectCategory(

@@ -3,22 +3,30 @@ import { ProjectCategoryRequest } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
 
 export default async function update(request: NextRequest) {
-  const { type, payload: projectCategory }: ProjectCategoryRequest =
-    await request.json();
+  const { type, payload }: ProjectCategoryRequest = await request.json();
 
-  if (type !== "update-project-category") {
-    throw new Error(
-      "Incorrect request. Type should be update-project-category. Current type: " +
-        type
-    );
+  if (type === "update-project-category") {
+    const updatedCategory = await ProjectDB.updateProjectCategory(payload);
+
+    return NextResponse.json({
+      errorMessage: null,
+      payload: updatedCategory,
+    });
   }
 
-  const updatedCategory = await ProjectDB.updateProjectCategory(
-    projectCategory
-  );
+  if (type === "update-project-categories-order") {
+    const updatedCategories = await ProjectDB.updateProjectCategoriesOrder(
+      payload
+    );
 
-  return NextResponse.json({
-    errorMessage: null,
-    payload: updatedCategory,
-  });
+    return NextResponse.json({
+      errorMessage: null,
+      payload: updatedCategories,
+    });
+  }
+
+  throw new Error(
+    "Incorrect request. Type should be update-project-category. Current type: " +
+      type
+  );
 }

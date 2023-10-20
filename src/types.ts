@@ -7,6 +7,10 @@ export interface Image extends Entity {
   alt: string;
 }
 
+export interface Order extends Entity {
+  order: number;
+}
+
 /***********************
  * Main Menu
  */
@@ -70,6 +74,10 @@ export type ProjectCategoryRequest =
   | {
       type: "delete-project-category";
       payload: string;
+    }
+  | {
+      type: "update-project-categories-order";
+      payload: Order[];
     };
 
 /*********************

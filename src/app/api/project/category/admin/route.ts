@@ -1,12 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
-import type { ProjectCategoryResponse } from "@/types";
+import type {
+  ProjectCategoriesResponse,
+  ProjectCategoryResponse,
+} from "@/types";
 import add from "./add";
 import update from "./update";
 import del from "./del";
 
 export async function POST(
   request: NextRequest
-): Promise<NextResponse<ProjectCategoryResponse>> {
+): Promise<NextResponse<ProjectCategoryResponse | ProjectCategoriesResponse>> {
   try {
     const action = request.nextUrl.searchParams.get("action");
 
