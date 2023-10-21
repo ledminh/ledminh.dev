@@ -139,7 +139,7 @@ export async function deleteProjectCategory(
 
 export async function getCategories(props: {
   withProjects: boolean;
-}): Promise<ProjectCategory[]> {
+}): Promise<ProjectCategory[] | ProjectCategoryWithProjects[]> {
   return (
     await prismaClient.projectCategory.findMany({
       orderBy: {
