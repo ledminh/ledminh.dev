@@ -1,5 +1,4 @@
 import ProjectPanel from "@/components/admin/ProjectPanel";
-import { ProjectDB } from "@/data";
 
 type Props = {
   params: {
