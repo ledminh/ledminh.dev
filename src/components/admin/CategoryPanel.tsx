@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Order, ProjectCategory } from "@/types";
+import { ProjectCategory } from "@/types";
 import { useEffect, useState } from "react";
 import AddCategory from "./AddCategory";
 import EditCategory from "./EditCategory";
@@ -9,11 +9,28 @@ import DeleteCategory from "./DeleteCategory";
 import getProjectCategories from "@/api-calls/getProjectCategories";
 import updateProjectCategoriesOrder from "@/api-calls/updateProjectCategoriesOrder";
 
+import {
+  useChangeOrder,
+  ChangeOrderButtons,
+  OrderInput,
+} from "@/components/ChangeOrder";
+
 export default function CategoryPanel() {
   const [categories, setCategories] = useState<ProjectCategory[]>([]);
-  const [orders, setOrders] = useState<Order[]>([]);
 
-  const [isChangeOrderOpen, setIsChangeOrderOpen] = useState(false);
+  const {
+    orders,
+    setOrders,
+    isChangeOrderOpen,
+    setIsChangeOrderOpen,
+    onSubmitOrder,
+    onOrderChange,
+    onCancelChangeOrder,
+  } = useChangeOrder({
+    items: categories,
+    setItems: setCategories,
+    updateOrder: updateProjectCategoriesOrder,
+  });
 
   useEffect(() => {
     getProjectCategories({
@@ -29,6 +46,7 @@ export default function CategoryPanel() {
         }))
       );
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onAdd = (newCategory: ProjectCategory) => {
@@ -83,64 +101,16 @@ export default function CategoryPanel() {
     );
   };
 
-  const onOrderChange = (newOrder: number, categoryId: string) => {
-    const newOrders = orders.map((order) => {
-      if (order.id === categoryId) {
-        return {
-          ...order,
-          order: newOrder,
-        };
-      }
-
-      return order;
-    });
-
-    setOrders(newOrders);
-  };
-
-  const onSubmitOrder = () => {
-    updateProjectCategoriesOrder(orders).then((categories) => {
-      categories.sort((a, b) => a.order - b.order);
-      setCategories(categories);
-
-      setIsChangeOrderOpen(false);
-    });
-  };
-
-  const onCancelChangeOrder = () => {
-    setOrders(
-      categories.map((category) => ({
-        order: category.order,
-        id: category.id,
-      }))
-    );
-
-    setIsChangeOrderOpen(false);
-  };
-
   return (
     <div>
       <h1>Category Panel</h1>
       <AddCategory onAdd={onAdd} />
-      {!isChangeOrderOpen && (
-        <button
-          onClick={() => setIsChangeOrderOpen(true)}
-          className="bg-slate-400 p-2"
-        >
-          Change Order
-        </button>
-      )}
-      {isChangeOrderOpen && (
-        <>
-          <button onClick={onSubmitOrder} className="bg-slate-400 p-2">
-            Submit Order
-          </button>
-          <button onClick={onCancelChangeOrder} className="bg-slate-400 p-2">
-            Cancel
-          </button>
-        </>
-      )}
-
+      <ChangeOrderButtons
+        setIsOpened={setIsChangeOrderOpen}
+        isOpened={isChangeOrderOpen}
+        onSubmit={onSubmitOrder}
+        onCancel={onCancelChangeOrder}
+      />
       <ul className="flex gap-2 flex-wrap">
         {categories.map((category) => {
           return (
@@ -149,19 +119,12 @@ export default function CategoryPanel() {
                 href={`/admin/projects/categories/${category.id}`}
                 className="border border-black block p-2 hover:bg-gray-300"
               >
-                {isChangeOrderOpen && (
-                  <input
-                    type="number"
-                    value={
-                      orders.find((order) => order.id === category.id)?.order
-                    }
-                    onChange={(e) =>
-                      onOrderChange(parseInt(e.target.value), category.id)
-                    }
-                    onClick={(e) => e.preventDefault()}
-                  />
-                )}
-
+                <OrderInput
+                  isShown={isChangeOrderOpen}
+                  order={orders}
+                  itemID={category.id}
+                  onOrderChange={onOrderChange}
+                />
                 <p>{category.title}</p>
                 <p>{category.description}</p>
                 <p>{category.order}</p>
