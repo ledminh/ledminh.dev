@@ -23,7 +23,7 @@ model ProjectCategory {
 
 model Project {
   id          String      @id @default(uuid())
-  order       Int?
+  order       Int
   title       String
   description String
   github      String

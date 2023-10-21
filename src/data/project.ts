@@ -48,7 +48,7 @@ export async function updateProjectCategory(
   }
 
   if (oldCategory.sortedBy === "auto" && editedCategory.sortedBy === "manual") {
-    prismaClient.project.updateMany({
+    await prismaClient.project.updateMany({
       where: {
         categoryId: editedCategory.id,
       },
@@ -268,6 +268,41 @@ export async function updateProject(
     ...updatedProject,
     image: updatedProject.image as Image,
   };
+}
+
+export async function updateProjectsOrder(orders: Order[]): Promise<Project[]> {
+  const projects = await prismaClient.project.findMany({
+    orderBy: {
+      order: "asc",
+    },
+  });
+
+  const updatedProjects = await Promise.all(
+    orders.map(async (order) => {
+      const project = projects.find((p) => p.id === order.id);
+
+      if (!project) {
+        throw new Error("Project not found");
+      }
+
+      return prismaClient.project.update({
+        where: {
+          id: order.id,
+        },
+        data: {
+          order: order.order,
+        },
+        include: {
+          image: true,
+        },
+      });
+    })
+  );
+
+  return updatedProjects.map((project) => ({
+    ...project,
+    image: project.image as Image,
+  }));
 }
 
 export async function deleteProject(projectID: string): Promise<string> {

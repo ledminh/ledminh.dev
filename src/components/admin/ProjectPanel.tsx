@@ -8,6 +8,13 @@ import DeleteProject from "./DeleteProject";
 import Image from "next/image";
 import sortProjects from "@/utils/sortProjects";
 import getCategoryWithProjects from "@/api-calls/getCategoryWithProjects";
+import updateProjectsOrder from "@/api-calls/updateProjectsOrder";
+
+import {
+  useChangeOrder,
+  ChangeOrderButtons,
+  OrderInput,
+} from "@/components/ChangeOrder";
 
 type Props = {
   categoryID: string;
@@ -17,6 +24,20 @@ export default function ProjectPanel({ categoryID }: Props) {
   const [projects, setProjects] = useState<Project[]>([]);
   const [sortedBy, setSortedBy] = useState<"auto" | "manual">("manual");
   const [categoryTitle, setCategoryTitle] = useState<string>("");
+
+  const {
+    orders,
+    setOrders,
+    isChangeOrderOpen,
+    setIsChangeOrderOpen,
+    onSubmitOrder,
+    onOrderChange,
+    onCancelChangeOrder,
+  } = useChangeOrder({
+    items: projects,
+    setItems: setProjects,
+    updateOrder: updateProjectsOrder,
+  });
 
   useEffect(() => {
     getCategoryWithProjects(categoryID).then((category) => {
@@ -29,13 +50,28 @@ export default function ProjectPanel({ categoryID }: Props) {
       );
 
       setProjects(newProjectsSorted);
+
+      setOrders(
+        newProjectsSorted.map((project) => ({
+          order: project.order,
+          id: project.id,
+        }))
+      );
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoryID]);
 
   const onAdd = (newProject: Project) => {
     const newProjects = sortProjects([...projects, newProject], sortedBy);
 
     setProjects(newProjects);
+
+    setOrders(
+      newProjects.map((project) => ({
+        order: project.order,
+        id: project.id,
+      }))
+    );
   };
 
   const onEdit = (editedProject: Project) => {
@@ -49,6 +85,13 @@ export default function ProjectPanel({ categoryID }: Props) {
     const newProjectsSorted = sortProjects(newProjects, sortedBy);
 
     setProjects(newProjectsSorted);
+
+    setOrders(
+      newProjectsSorted.map((project) => ({
+        order: project.order,
+        id: project.id,
+      }))
+    );
   };
 
   const onDelete = (deletedProject: Project) => {
@@ -59,6 +102,13 @@ export default function ProjectPanel({ categoryID }: Props) {
     const newProjectsSorted = sortProjects(newProjects, sortedBy);
 
     setProjects(newProjectsSorted);
+
+    setOrders(
+      newProjectsSorted.map((project) => ({
+        order: project.order,
+        id: project.id,
+      }))
+    );
   };
 
   return (
@@ -66,6 +116,15 @@ export default function ProjectPanel({ categoryID }: Props) {
       <h1>Project Panel</h1>
       <h2>Category: {categoryTitle}</h2>
       <AddProject onAdd={onAdd} sortedBy={sortedBy} categoryID={categoryID} />
+
+      {sortedBy === "manual" && (
+        <ChangeOrderButtons
+          setIsOpened={setIsChangeOrderOpen}
+          isOpened={isChangeOrderOpen}
+          onSubmit={onSubmitOrder}
+          onCancel={onCancelChangeOrder}
+        />
+      )}
 
       <div className="bg-blue-300">
         <p>Sorted by: {sortedBy}</p>
@@ -75,6 +134,12 @@ export default function ProjectPanel({ categoryID }: Props) {
           return (
             <li key={project.id}>
               <div className="border border-blue-900 block p-2 hover:bg-gray-300">
+                <OrderInput
+                  isShown={isChangeOrderOpen}
+                  order={orders}
+                  itemID={project.id}
+                  onOrderChange={onOrderChange}
+                />
                 <p>{project.title}</p>
                 <p>{project.description}</p>
                 {sortedBy === "manual" && (

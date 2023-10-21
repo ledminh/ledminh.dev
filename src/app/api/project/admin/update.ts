@@ -1,10 +1,35 @@
 import uploadImage from "@/utils/uploadImage";
 import { ProjectDB } from "@/data";
 import { NextResponse, NextRequest } from "next/server";
-import { Image, Project } from "@/types";
+import { Image, Project, ProjectRequest } from "@/types";
 import deleteImages from "@/utils/deleteImages";
 
+import { Order } from "@/types";
+
 export default async function update(request: NextRequest) {
+  const { type, payload }: ProjectRequest = await request.json();
+
+  if (type === "update-projects-order") {
+    return await updateProjectsOrder(payload);
+  }
+
+  return await updateProject(request);
+}
+
+/****************
+ * Helpers
+ */
+
+async function updateProjectsOrder(orders: Order[]) {
+  const updatedProjects = await ProjectDB.updateProjectsOrder(orders);
+
+  return NextResponse.json({
+    errorMessage: null,
+    payload: updatedProjects,
+  });
+}
+
+async function updateProject(request: NextRequest) {
   const formData = await request.formData();
 
   const projectID = formData.get("id") as string;
@@ -48,7 +73,7 @@ export default async function update(request: NextRequest) {
 
   const editedProjectData: Project = {
     id: projectID,
-    order: formData.get("order") ? Number(formData.get("order")) : null,
+    order: formData.get("order") ? Number(formData.get("order")) : 0,
     title: formData.get("title") as string,
     description: formData.get("description") as string,
     github: formData.get("github") as string,

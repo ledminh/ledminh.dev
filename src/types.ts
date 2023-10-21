@@ -36,7 +36,7 @@ export interface ProjectCategoryWithProjects extends ProjectCategory {
 export type NewProjectCategory = Omit<ProjectCategory, "id" | "numProjects">;
 
 export interface Project extends Entity {
-  order: number | null;
+  order: number;
   title: string;
   description: string;
   github: string;
@@ -56,10 +56,15 @@ export type EditedProjectData = Omit<Project, "image"> & {
  * API Calls
  */
 
-export type ProjectRequest = {
-  type: "delete-project";
-  payload: string;
-};
+export type ProjectRequest =
+  | {
+      type: "delete-project";
+      payload: string;
+    }
+  | {
+      type: "update-projects-order";
+      payload: Order[];
+    };
 // update and add are performed through request.formData() --> no need for payload
 
 export type ProjectCategoryRequest =
@@ -94,6 +99,7 @@ type Response<T> =
     };
 
 export type ProjectResponse = Response<Project>;
+export type ProjectsResponse = Response<Project[]>;
 
 export type ProjectCategoryResponse = Response<ProjectCategory>;
 export type ProjectCategoryWithProjectsResponse =

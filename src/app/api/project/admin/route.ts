@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import type { ProjectResponse } from "@/types";
+import type { ProjectResponse, ProjectsResponse } from "@/types";
 
 import add from "./add";
 import update from "./update";
@@ -7,7 +7,7 @@ import del from "./del";
 
 export async function POST(
   request: NextRequest
-): Promise<NextResponse<ProjectResponse>> {
+): Promise<NextResponse<ProjectResponse | ProjectsResponse>> {
   try {
     const action = request.nextUrl.searchParams.get("action");
 
