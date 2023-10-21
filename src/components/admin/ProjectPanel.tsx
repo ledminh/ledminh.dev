@@ -7,7 +7,7 @@ import EditProject from "./EditProject";
 import DeleteProject from "./DeleteProject";
 import Image from "next/image";
 import sortProjects from "@/utils/sortProjects";
-import getCategoryWithProjects from "@/api-calls/getCategoryWithProjects";
+import getProjectCategory from "@/api-calls/getProjectCategory";
 import updateProjectsOrder from "@/api-calls/updateProjectsOrder";
 
 import {
@@ -40,24 +40,26 @@ export default function ProjectPanel({ categoryID }: Props) {
   });
 
   useEffect(() => {
-    getCategoryWithProjects(categoryID).then((category) => {
-      setCategoryTitle(category.title);
-      setSortedBy(category.sortedBy);
+    getProjectCategory({ id: categoryID, withProjects: true }).then(
+      (category) => {
+        setCategoryTitle(category.title);
+        setSortedBy(category.sortedBy);
 
-      const newProjectsSorted = sortProjects(
-        category.projects,
-        category.sortedBy
-      );
+        const newProjectsSorted = sortProjects(
+          category.projects,
+          category.sortedBy
+        );
 
-      setProjects(newProjectsSorted);
+        setProjects(newProjectsSorted);
 
-      setOrders(
-        newProjectsSorted.map((project) => ({
-          order: project.order,
-          id: project.id,
-        }))
-      );
-    });
+        setOrders(
+          newProjectsSorted.map((project) => ({
+            order: project.order,
+            id: project.id,
+          }))
+        );
+      }
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoryID]);
 

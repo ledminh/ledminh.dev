@@ -4,11 +4,14 @@ import type {
   ProjectCategoryWithProjects,
 } from "@/types";
 
-async function getCategoryWithProjects(
-  id: string
-): Promise<ProjectCategoryWithProjects> {
+async function getProjectCategory(props: {
+  id: string;
+  withProjects: boolean;
+}): Promise<ProjectCategoryWithProjects> {
   const response = await fetch(
-    "/api/project/category?action=get-one&id=" + id,
+    "/api/project/category?action=get-one&id=" +
+      props.id +
+      (props.withProjects ? "&with-projects=true" : ""),
     {
       method: "GET",
     }
@@ -27,4 +30,4 @@ async function getCategoryWithProjects(
   return result.payload as ProjectCategoryWithProjects;
 }
 
-export default getCategoryWithProjects;
+export default getProjectCategory;

@@ -163,6 +163,52 @@ export async function getCategories(props: {
   }));
 }
 
+export async function getCategory(props: {
+  id: string;
+  withProjects: boolean;
+}): Promise<ProjectCategoryWithProjects | ProjectCategory> {
+  const category = await prismaClient.projectCategory.findUnique({
+    where: {
+      id: props.id,
+    },
+    ...(props.withProjects
+      ? {
+          include: {
+            projects: {
+              include: {
+                image: true,
+              },
+            },
+          },
+        }
+      : {}),
+  });
+
+  if (!category) {
+    throw new Error("Category not found");
+  }
+
+  if (!props.withProjects) {
+    return {
+      ...category,
+      sortedBy: category.sortedBy as "auto" | "manual",
+    };
+  }
+
+  const projects = (category as ProjectCategoryWithProjects).projects.map(
+    (project) => ({
+      ...project,
+      image: project.image as Image,
+    })
+  );
+
+  return {
+    ...category,
+    sortedBy: category.sortedBy as "auto" | "manual",
+    projects,
+  };
+}
+
 // *********************
 // Project
 // *********************
