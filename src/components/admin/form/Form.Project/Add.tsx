@@ -10,14 +10,14 @@ import Form from "../elements/Form";
 import FormGroup from "../elements/FormGroup";
 import FileForm from "../elements/FileForm";
 import NumberInput from "../elements/NumberInput";
-import { NewProject } from "@/types";
+import { Image, NewProject } from "@/types";
 
 export default function ProjectCategoryForm(props: {
   sortedBy: "auto" | "manual";
   onCancel: () => void;
   onSubmit: (newProject: NewProject) => void;
 }) {
-  const [image, setImage] = useState<File | null>(null);
+  const [image, setImage] = useState<File | Image | null>(null);
 
   const {
     handleSubmit,
@@ -33,7 +33,7 @@ export default function ProjectCategoryForm(props: {
 
   const _onSubmit: SubmitHandler<FieldValues> = (data, e) => {
     props.onSubmit({
-      order: props.sortedBy === "manual" ? parseInt(data.order) : null,
+      order: props.sortedBy === "manual" ? parseInt(data.order) : 0,
       title: data.title,
       description: data.description,
       github: data.github,

@@ -9,6 +9,7 @@ import DeleteCategory from "./DeleteCategory";
 import getProjectCategories from "@/api-calls/getProjectCategories";
 import updateProjectCategoriesOrder from "@/api-calls/updateProjectCategoriesOrder";
 
+
 import {
   useChangeOrder,
   ChangeOrderButtons,
@@ -104,6 +105,7 @@ export default function CategoryPanel() {
   return (
     <div>
       <h1>Category Panel</h1>
+
       <AddCategory onAdd={onAdd} />
       <ChangeOrderButtons
         setIsOpened={setIsChangeOrderOpen}
