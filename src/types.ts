@@ -56,6 +56,21 @@ export type EditedProjectData = Omit<Project, "image"> & {
  * API Calls
  */
 
+// Admin Login
+
+export type AdminLoginInfo = {
+  email: string;
+};
+
+export type AdminLoginRequest = {
+  type: "admin-login";
+  payload: {
+    email: string;
+    password: string;
+  };
+};
+
+// Project Requests
 export type ProjectRequest =
   | {
       type: "delete-project";
@@ -98,6 +113,7 @@ type Response<T> =
       payload: null;
     };
 
+// Project Responses
 export type ProjectResponse = Response<Project>;
 export type ProjectsResponse = Response<Project[]>;
 
@@ -105,3 +121,6 @@ export type ProjectCategoryResponse = Response<ProjectCategory>;
 export type ProjectCategoryWithProjectsResponse =
   Response<ProjectCategoryWithProjects>;
 export type ProjectCategoriesResponse = Response<ProjectCategory[]>;
+
+// Admin Login Response
+export type AdminLoginResponse = Response<AdminLoginInfo>;

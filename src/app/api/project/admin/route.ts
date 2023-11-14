@@ -22,6 +22,7 @@ export async function POST(
         return update(request);
       case "delete":
         return del(request);
+
       default:
         throw new Error("type not found");
     }

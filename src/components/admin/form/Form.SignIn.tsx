@@ -7,6 +7,8 @@ import TextInput from "./elements/TextInput";
 import PasswordInput from "./elements/PasswordInput";
 
 import { useRouter } from "next/navigation";
+import login from "@/api-calls/login";
+import { AdminLoginInfo } from "@/types";
 
 export default function SignIn() {
   const {
@@ -19,7 +21,9 @@ export default function SignIn() {
   const router = useRouter();
 
   const _onSubmit: SubmitHandler<FieldValues> = (data, e) => {
-    router.back();
+    login(data.email, data.password).then(() => {
+      router.push("/admin");
+    });
   };
 
   const onReset = (e: any) => {
@@ -28,12 +32,12 @@ export default function SignIn() {
 
   return (
     <Form onSubmit={handleSubmit(_onSubmit)} onReset={onReset}>
-      <FormGroup label="Username" htmlFor="user-name">
+      <FormGroup label="Email" htmlFor="email">
         <TextInput
           register={register}
           errors={errors}
-          name="user-name"
-          required="username required"
+          name="email"
+          required="email required"
         />
       </FormGroup>
       <FormGroup label="Password" htmlFor="password">
@@ -55,8 +59,3 @@ export default function SignIn() {
     </Form>
   );
 }
-
-// const { data, error } = await supabase.auth.signInWithPassword({
-//   email: 'example@email.com',
-//   password: 'example-password',
-// })
