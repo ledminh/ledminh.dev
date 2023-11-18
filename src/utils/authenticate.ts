@@ -8,7 +8,13 @@ export default async function authenticate() {
     data: { session },
   } = await supabase.auth.getSession();
 
-  if (session?.user.email !== process.env.ADMIN_EMAIL) {
+  if (!session) {
+    return {
+      error: null,
+      data: null,
+    };
+  }
+  else if (session.user.email !== process.env.ADMIN_EMAIL) {
     return {
       error: {
         message: "Wrong credentials",
