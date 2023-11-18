@@ -1,16 +1,25 @@
 import { NextRequest, NextResponse } from "next/server";
+
 import type {
   ProjectCategoriesResponse,
   ProjectCategoryResponse,
 } from "@/types";
+
 import add from "./add";
 import update from "./update";
 import del from "./del";
+import authenticate from "@/utils/authenticate";
 
 export async function POST(
   request: NextRequest
 ): Promise<NextResponse<ProjectCategoryResponse | ProjectCategoriesResponse>> {
   try {
+    const { data, error } = await authenticate();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
     const action = request.nextUrl.searchParams.get("action");
 
     if (action === null) {

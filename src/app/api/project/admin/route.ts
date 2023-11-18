@@ -4,11 +4,20 @@ import type { ProjectResponse, ProjectsResponse } from "@/types";
 import add from "./add";
 import update from "./update";
 import del from "./del";
+import authenticate from "@/utils/authenticate";
 
 export async function POST(
   request: NextRequest
 ): Promise<NextResponse<ProjectResponse | ProjectsResponse>> {
   try {
+
+    const { data, error } = await authenticate();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+
     const action = request.nextUrl.searchParams.get("action");
 
     if (action === null) {
