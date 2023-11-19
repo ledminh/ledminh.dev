@@ -8,7 +8,6 @@ import PasswordInput from "./elements/PasswordInput";
 
 import { useRouter } from "next/navigation";
 import login from "@/api-calls/login";
-import { AdminLoginInfo } from "@/types";
 
 export default function SignIn() {
   const {
@@ -22,7 +21,7 @@ export default function SignIn() {
 
   const _onSubmit: SubmitHandler<FieldValues> = (data, e) => {
     login(data.email, data.password).then(() => {
-      router.push("/admin");
+      router.refresh();
     });
   };
 

@@ -9,7 +9,7 @@ export default function LogoutButton() {
   const router = useRouter();
 
   const onClick = () => {
-    supabase.auth.signOut().then(() => router.push("/sign-in"));
+    supabase.auth.signOut().then(() => router.refresh());
   };
 
   return (
