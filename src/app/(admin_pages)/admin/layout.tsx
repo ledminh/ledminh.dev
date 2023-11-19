@@ -1,3 +1,4 @@
+import ErrorLoginScreen from "@/components/admin/ErrorLoginScreen";
 import SignOutButton from "@/components/admin/SignOutButton";
 import UnAuthenticateScreen from "@/components/admin/UnAuthenticateScreen";
 import SignIn from "@/components/admin/form/Form.SignIn";
@@ -9,13 +10,7 @@ export default async function LayoutPage(props: { children: React.ReactNode }) {
   const { data, error } = await authenticate();
 
   if (error) {
-    return (
-      <div>
-        <p>There was an error signing you in.</p>
-        <pre>{error.message}</pre>
-        <SignIn />
-      </div>
-    );
+    return <ErrorLoginScreen errorMessage={error.message} />;
   } else if (!data) {
     return <UnAuthenticateScreen />;
   }

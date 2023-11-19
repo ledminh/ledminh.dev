@@ -2,13 +2,14 @@ import ErrorLayout from "./ErrorLayout";
 
 import SignIn from "./form/Form.SignIn";
 
-export default function UnAuthenticateScreen() {
+export default function ErrorLoginScreen(props: { errorMessage: string }) {
   return (
     <ErrorLayout>
       <p className="text-xl font-semibold">
-        You are not authorized to access this area.
+        There was an error signing you in.{" "}
       </p>
-      <p className="font-semibold">Please sign in first</p>
+      <pre className="bg-slate-200 p-2">{props.errorMessage}</pre>
+      <p className="font-semibold">Please sign in again</p>
       <div className="shadow-xl">
         <SignIn />
       </div>
