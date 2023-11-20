@@ -13,7 +13,7 @@ export default function AddCategory({ onAdd }: Props) {
   return (
     <>
       <button
-        className="btn btn-secondary"
+        className="btn btn-primary"
         onClick={() => setIsModalOpen(true)}
       >
         Add Category

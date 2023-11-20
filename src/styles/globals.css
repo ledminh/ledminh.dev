@@ -11,7 +11,7 @@ body {
 }
 
 .btn-primary {
-  @apply bg-gray-800 hover:bg-gray-950;
+  @apply bg-blue-800 hover:bg-gray-950;
 }
 
 .btn-secondary {

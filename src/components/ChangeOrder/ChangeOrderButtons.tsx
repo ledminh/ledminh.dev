@@ -14,16 +14,16 @@ export default function ChangeOrderButtons({
   return (
     <>
       {!isOpened && (
-        <button onClick={() => setIsOpened(true)} className="bg-slate-400 p-2">
+        <button onClick={() => setIsOpened(true)} className="btn btn-secondary">
           Change Order
         </button>
       )}
       {isOpened && (
         <>
-          <button onClick={onSubmit} className="bg-slate-400 p-2">
+          <button onClick={onSubmit} className="btn btn-secondary">
             Submit Order
           </button>
-          <button onClick={onCancel} className="bg-slate-400 p-2">
+          <button onClick={onCancel} className="btn btn-secondary">
             Cancel
           </button>
         </>
