@@ -15,9 +15,17 @@ body {
 }
 
 .btn-secondary {
-  @apply bg-neutral-500 hover:bg-neutral-600;
+  @apply bg-neutral-900 hover:bg-neutral-600;
+}
+
+.btn-tertiary {
+  @apply bg-neutral-400 hover:bg-neutral-500;
 }
 
 .btn-attention {
   @apply bg-red-800 hover:bg-red-950;
+}
+
+.btn-sm {
+  @apply text-sm px-2 py-1;
 }

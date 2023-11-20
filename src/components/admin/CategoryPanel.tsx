@@ -9,7 +9,6 @@ import DeleteCategory from "./DeleteCategory";
 import getProjectCategories from "@/api-calls/getProjectCategories";
 import updateProjectCategoriesOrder from "@/api-calls/updateProjectCategoriesOrder";
 
-
 import {
   useChangeOrder,
   ChangeOrderButtons,
@@ -103,7 +102,7 @@ export default function CategoryPanel() {
   };
 
   return (
-    <div>
+    <div className="grid gap-4 sm:grid-cols-2">
       <AddCategory onAdd={onAdd} />
       <ChangeOrderButtons
         setIsOpened={setIsChangeOrderOpen}
@@ -111,7 +110,7 @@ export default function CategoryPanel() {
         onSubmit={onSubmitOrder}
         onCancel={onCancelChangeOrder}
       />
-      <ul className="flex gap-2 flex-wrap">
+      <ul className="flex gap-2 flex-wrap sm:col-span-2">
         {categories.map((category) => {
           return (
             <li key={category.id}>

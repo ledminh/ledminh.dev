@@ -19,14 +19,14 @@ export default function ChangeOrderButtons({
         </button>
       )}
       {isOpened && (
-        <>
-          <button onClick={onSubmit} className="btn btn-secondary">
+        <div className="flex gap-2 p-2 items-center">
+          <button onClick={onSubmit} className="btn btn-secondary btn-sm">
             Submit Order
           </button>
-          <button onClick={onCancel} className="btn btn-secondary">
+          <button onClick={onCancel} className="btn btn-tertiary btn-sm">
             Cancel
           </button>
-        </>
+        </div>
       )}
     </>
   );
