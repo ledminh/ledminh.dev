@@ -115,17 +115,18 @@ export default function CategoryPanel() {
           return (
             <li key={category.id}>
               <LinkWrapper categoryID={category.id}>
-                <OrderInput
-                  isShown={isChangeOrderOpen}
-                  order={orders}
-                  itemID={category.id}
-                  onOrderChange={onOrderChange}
-                />
                 <CatHeader>
                   <h2 className="font-semibold text-lg">{category.title}</h2>
                   <p className="text-blue-900 font-semibold">
-                    <span>Order: </span>
-                    {category.order}
+                    {isChangeOrderOpen ? (
+                      <OrderInput
+                        order={orders}
+                        itemID={category.id}
+                        onOrderChange={onOrderChange}
+                      />
+                    ) : (
+                      <span>Order: {category.order}</span>
+                    )}
                   </p>
                 </CatHeader>
                 <CatBody>
@@ -167,7 +168,7 @@ const LinkWrapper = (props: {
   return (
     <Link
       href={`/admin/projects/categories/${props.categoryID}`}
-      className="block hover:bg-gray-300 rounded-lg shadow-sm shadow-slate-700 overflow-hidden"
+      className="hover:bg-gray-300 rounded-lg shadow-sm shadow-slate-700 overflow-hidden h-full flex flex-col justify-between"
     >
       {props.children}
     </Link>
