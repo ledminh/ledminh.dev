@@ -16,7 +16,7 @@ export default async function LayoutPage(props: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="border-2 border-red-500/60 rounded-lg m-4">
+    <div className="border-2 border-red-500/60 rounded-lg m-4 max-w-4xl lg:mx-auto">
       <section className="bg-red-300/60 p-2 flex justify-between items-center">
         <div>
           <h1 className="text-3xl text-black font-bold">ADMIN PANEL</h1>

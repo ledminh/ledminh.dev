@@ -1,6 +1,3 @@
-import SignOutButton from "@/components/admin/SignOutButton";
-import authenticate from "@/utils/authenticate";
-
 import Link from "next/link";
 
 export default async function AdminPage() {

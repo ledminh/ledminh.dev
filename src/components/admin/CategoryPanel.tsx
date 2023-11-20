@@ -104,8 +104,6 @@ export default function CategoryPanel() {
 
   return (
     <div>
-      <h1>Category Panel</h1>
-
       <AddCategory onAdd={onAdd} />
       <ChangeOrderButtons
         setIsOpened={setIsChangeOrderOpen}
