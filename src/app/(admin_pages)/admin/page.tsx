@@ -4,22 +4,22 @@ import authenticate from "@/utils/authenticate";
 import Link from "next/link";
 
 export default async function AdminPage() {
-  const { data, error } = await authenticate();
-
-  if (error) {
-    return (
-      <div>
-        <p>There was an error signing you in.</p>
-        <pre>{error.message}</pre>
-        <Link href="/sign-in">Sign in</Link>
-      </div>
-    );
-  }
-
   return (
     <div>
-      <p>Welcome, {data?.user.email}</p>
-      <SignOutButton />
+      <ul className="flex">
+        {adminSections.map((sec) => (
+          <li key={sec.path}>
+            <Link href={sec.path} className="border p-2 border-slate-500 hover:bg-slate-200">{sec.title}</Link>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
+
+const adminSections = [
+  {
+    title: "Projects",
+    path: "/admin/projects",
+  },
+];

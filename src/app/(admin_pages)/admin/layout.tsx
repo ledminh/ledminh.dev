@@ -16,12 +16,17 @@ export default async function LayoutPage(props: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="border-2 border-red-500 p-4 m-4">
-      <h1 className="text-3xl text-red-700">ADMIN PANEL</h1>
-      <p>Welcome, {data.user.email}</p>
-      <SignOutButton />
-
-      {props.children}
+    <div className="border-2 border-red-500/60 rounded-lg m-4">
+      <section className="bg-red-300/60 p-2 flex justify-between items-center">
+        <div>
+          <h1 className="text-3xl text-black font-bold">ADMIN PANEL</h1>
+          <p className="font-mono text-slate-950">Welcome, {data.user.email}</p>
+        </div>
+        <div>
+          <SignOutButton />
+        </div>
+      </section>
+      <section className="p-4">{props.children}</section>
     </div>
   );
 }
