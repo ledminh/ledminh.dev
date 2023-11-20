@@ -82,16 +82,10 @@ export default function ProjectCategoryForm(props: {
         />
       </FormGroup>
       <div className="flex gap-2">
-        <button
-          className="px-4 py-2 bg-gray-500 rounded-lg text-white font-semibold hover:bg-gray-800"
-          type="submit"
-        >
+        <button className="btn btn-primary" type="submit">
           Submit
         </button>
-        <button
-          className="px-4 py-2 bg-red-900 rounded-lg text-white font-semibold hover:bg-red-950"
-          type="reset"
-        >
+        <button className="btn btn-secondary" type="reset">
           Cancel
         </button>
       </div>

@@ -14,7 +14,7 @@ export default function EditCategory({ onEdit, category }: Props) {
   return (
     <>
       <button
-        className="btn btn-secondary"
+        className="btn btn-secondary btn-sm"
         onClick={(e) => {
           e.preventDefault();
           setIsModalOpen(true);

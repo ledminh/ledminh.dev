@@ -14,7 +14,7 @@ export default function DeleteCategory({ onDelete, category }: Props) {
   return (
     <>
       <button
-        className="btn btn-secondary"
+        className="btn btn-attention btn-sm"
         disabled={category.numProjects > 0}
         onClick={(e) => {
           e.preventDefault();

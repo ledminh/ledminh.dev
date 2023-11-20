@@ -110,30 +110,44 @@ export default function CategoryPanel() {
         onSubmit={onSubmitOrder}
         onCancel={onCancelChangeOrder}
       />
-      <ul className="flex gap-2 flex-wrap sm:col-span-2">
+      <ul className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-2 sm:col-span-2">
         {categories.map((category) => {
           return (
             <li key={category.id}>
-              <Link
-                href={`/admin/projects/categories/${category.id}`}
-                className="border border-black block p-2 hover:bg-gray-300"
-              >
+              <LinkWrapper categoryID={category.id}>
                 <OrderInput
                   isShown={isChangeOrderOpen}
                   order={orders}
                   itemID={category.id}
                   onOrderChange={onOrderChange}
                 />
-                <p>{category.title}</p>
-                <p>{category.description}</p>
-                <p>{category.order}</p>
-                <p>{category.sortedBy}</p>
-                <p>numProjects: {category.numProjects}</p>
-                <div className="flex gap-2">
+                <CatHeader>
+                  <h2 className="font-semibold text-lg">{category.title}</h2>
+                  <p className="text-blue-900 font-semibold">
+                    <span>Order: </span>
+                    {category.order}
+                  </p>
+                </CatHeader>
+                <CatBody>
+                  <p className="font-mono bg-slate-100 p-2">
+                    {category.description.length > 20
+                      ? category.description.slice(0, 20) + "..."
+                      : category.description}
+                  </p>
+                  <p>
+                    <span className="font-bold">Sorting Mode:</span>{" "}
+                    <span className="italic">{category.sortedBy}</span>
+                  </p>
+                  <p>
+                    <span className="font-bold">Projects:</span>{" "}
+                    <span className="italic">{category.numProjects}</span>
+                  </p>
+                </CatBody>
+                <CatFooter>
                   <EditCategory onEdit={onEdit} category={category} />
                   <DeleteCategory onDelete={onDelete} category={category} />
-                </div>
-              </Link>
+                </CatFooter>
+              </LinkWrapper>
             </li>
           );
         })}
@@ -141,3 +155,43 @@ export default function CategoryPanel() {
     </div>
   );
 }
+
+/************************
+ * Components
+ */
+
+const LinkWrapper = (props: {
+  categoryID: string;
+  children: React.ReactNode;
+}) => {
+  return (
+    <Link
+      href={`/admin/projects/categories/${props.categoryID}`}
+      className="block hover:bg-gray-300 rounded-lg shadow-sm shadow-slate-700 overflow-hidden"
+    >
+      {props.children}
+    </Link>
+  );
+};
+
+const CatHeader = (props: { children: React.ReactNode }) => {
+  return (
+    <div className="p-2 bg-slate-400 flex justify-between items-center">
+      {props.children}
+    </div>
+  );
+};
+
+const CatBody = (props: { children: React.ReactNode }) => {
+  return (
+    <div className="p-4 flex flex-col gap-2 text-sm">{props.children}</div>
+  );
+};
+
+const CatFooter = (props: { children: React.ReactNode }) => {
+  return (
+    <div className="flex gap-2 justify-center bg-slate-300 p-2">
+      {props.children}
+    </div>
+  );
+};
