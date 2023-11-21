@@ -41,7 +41,7 @@ export default async function uploadImage(
   return {
     error: null,
     imagePath:
-      process.env.SUPABASE_STORAGE_URL +
+      process.env.SUPABASE_URL +
       "/storage/v1/object/public/" +
       bucket +
       "/" +

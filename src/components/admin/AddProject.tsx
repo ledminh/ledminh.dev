@@ -14,10 +14,7 @@ export default function AddProject({ onAdd, sortedBy, categoryID }: Props) {
 
   return (
     <>
-      <button
-        className="btn btn-secondary"
-        onClick={() => setIsModalOpen(true)}
-      >
+      <button className="btn btn-primary" onClick={() => setIsModalOpen(true)}>
         Add Project
       </button>
       {isModalOpen && (

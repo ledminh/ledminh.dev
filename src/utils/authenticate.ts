@@ -13,8 +13,7 @@ export default async function authenticate() {
       error: null,
       data: null,
     };
-  }
-  else if (session.user.email !== process.env.ADMIN_EMAIL) {
+  } else if (session.user.email !== process.env.ADMIN_EMAIL) {
     return {
       error: {
         message: "Wrong credentials",

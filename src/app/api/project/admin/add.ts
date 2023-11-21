@@ -22,7 +22,7 @@ export default async function add(request: NextRequest) {
   const categoryID = formData.get("categoryID") as string;
 
   const newProjectData: Omit<Project, "id"> = {
-    order: formData.get("order") ? Number(formData.get("order")) : null,
+    order: Number(formData.get("order")),
     title: formData.get("title") as string,
     description: formData.get("description") as string,
     github: formData.get("github") as string,

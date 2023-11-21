@@ -10,13 +10,11 @@ export async function POST(
   request: NextRequest
 ): Promise<NextResponse<ProjectResponse | ProjectsResponse>> {
   try {
-
     const { data, error } = await authenticate();
 
     if (error) {
       throw new Error(error.message);
     }
-
 
     const action = request.nextUrl.searchParams.get("action");
 
@@ -28,6 +26,7 @@ export async function POST(
       case "add":
         return add(request);
       case "update":
+        console.log("update");
         return update(request);
       case "delete":
         return del(request);

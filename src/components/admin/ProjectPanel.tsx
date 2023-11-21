@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Project } from "@/types";
 import { useEffect, useState } from "react";
 import AddProject from "./AddProject";
@@ -114,9 +115,20 @@ export default function ProjectPanel({ categoryID }: Props) {
   };
 
   return (
-    <div>
-      <h1>Project Panel</h1>
-      <h2>Category: {categoryTitle}</h2>
+    <div className="grid gap-4 sm:grid-cols-2">
+      <h2 className="bg-blue-100 p-3 font-semibold text-lg flex items-center gap-1 sm:col-span-2">
+        <Link
+          href="/admin/projects"
+          className="bg-blue-200/60 hover:bg-blue-200 rounded-full flex justify-center items-center w-8 h-8 group"
+        >
+          <span className="group-hover:-translate-x-1 transition">{"<-"}</span>
+        </Link>
+        <span>Category: {categoryTitle}</span>
+      </h2>
+      <p className="sm:col-span-2 font-mono font-semibold">
+        SORTING MODE: {sortedBy}
+      </p>
+
       <AddProject onAdd={onAdd} sortedBy={sortedBy} categoryID={categoryID} />
 
       {sortedBy === "manual" && (
@@ -128,16 +140,12 @@ export default function ProjectPanel({ categoryID }: Props) {
         />
       )}
 
-      <div className="bg-blue-300">
-        <p>Sorted by: {sortedBy}</p>
-      </div>
       <ul className="flex gap-2 flex-wrap">
         {projects.map((project) => {
           return (
             <li key={project.id}>
               <div className="border border-blue-900 block p-2 hover:bg-gray-300">
                 <OrderInput
-                  isShown={isChangeOrderOpen}
                   order={orders}
                   itemID={project.id}
                   onOrderChange={onOrderChange}
