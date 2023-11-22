@@ -11,6 +11,8 @@ import sortProjects from "@/utils/sortProjects";
 import getProjectCategory from "@/api-calls/getProjectCategory";
 import updateProjectsOrder from "@/api-calls/updateProjectsOrder";
 
+import { CardBody, CardHeader, CardFooter, CardWrapper } from "./Card";
+
 import {
   useChangeOrder,
   ChangeOrderButtons,
@@ -140,32 +142,60 @@ export default function ProjectPanel({ categoryID }: Props) {
         />
       )}
 
-      <ul className="flex gap-2 flex-wrap">
+      <ul className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:col-span-2">
         {projects.map((project) => {
           return (
             <li key={project.id}>
-              <div className="border border-blue-900 block p-2 hover:bg-gray-300">
-                <OrderInput
-                  order={orders}
-                  itemID={project.id}
-                  onOrderChange={onOrderChange}
-                />
-                <p>{project.title}</p>
-                <p>{project.description}</p>
-                {sortedBy === "manual" && (
-                  <p className="bg-red-200">{project.order}</p>
-                )}
-                <p>{project.github}</p>
-                <p>{project.demo}</p>
-                <div className="relative w-10 h-10">
-                  <Image
-                    src={project.image.src}
-                    alt={project.image.alt}
-                    fill
-                    className="object-fill"
-                  />
-                </div>
-                <div className="flex gap-2">
+              <CardWrapper type="div">
+                <CardHeader>
+                  <h2 className="font-semibold text-lg">{project.title}</h2>
+                  {sortedBy === "manual" && (
+                    <p className="text-blue-900 font-semibold">
+                      {isChangeOrderOpen ? (
+                        <OrderInput
+                          order={orders}
+                          itemID={project.id}
+                          onOrderChange={onOrderChange}
+                        />
+                      ) : (
+                        <span>Order: {project.order}</span>
+                      )}
+                    </p>
+                  )}
+                </CardHeader>
+                <CardBody>
+                  <p className="font-mono bg-slate-100 p-2">
+                    {project.description.length > 20
+                      ? project.description.slice(0, 20) + "..."
+                      : project.description}
+                  </p>
+
+                  <div className="grid grid-cols-2 border border-slate-400 gap-2 p-2">
+                    <p className="font-semibold col-span-2">Links:</p>
+                    <Link
+                      href={project.github}
+                      className="bg-gray-500 text-white text-center p-1 hover:bg-gray-800"
+                    >
+                      GITHUB
+                    </Link>
+                    <Link
+                      href={project.demo}
+                      className="bg-gray-500 text-white text-center p-1 hover:bg-gray-800"
+                    >
+                      DEMO
+                    </Link>
+                  </div>
+
+                  <div className="relative w-full h-40 border-4 border-black rounded-xl overflow-hidden">
+                    <Image
+                      src={project.image.src}
+                      alt={project.image.alt}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                </CardBody>
+                <CardFooter>
                   <EditProject
                     onEdit={onEdit}
                     project={project}
@@ -173,8 +203,8 @@ export default function ProjectPanel({ categoryID }: Props) {
                     categoryID={categoryID}
                   />
                   <DeleteProject onDelete={onDelete} project={project} />
-                </div>
-              </div>
+                </CardFooter>
+              </CardWrapper>
             </li>
           );
         })}

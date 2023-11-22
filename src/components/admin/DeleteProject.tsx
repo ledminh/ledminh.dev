@@ -14,7 +14,7 @@ export default function DeleteCategory({ onDelete, project }: Props) {
   return (
     <>
       <button
-        className="btn btn-secondary"
+        className="btn btn-attention btn-sm"
         onClick={(e) => {
           e.preventDefault();
           setIsModalOpen(true);

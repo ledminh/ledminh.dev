@@ -1,6 +1,7 @@
 "use client";
 
-import Link from "next/link";
+import { CardWrapper, CardHeader, CardBody, CardFooter } from "./Card";
+
 import { ProjectCategory } from "@/types";
 import { useEffect, useState } from "react";
 import AddCategory from "./AddCategory";
@@ -114,8 +115,11 @@ export default function CategoryPanel() {
         {categories.map((category) => {
           return (
             <li key={category.id}>
-              <LinkWrapper categoryID={category.id}>
-                <CatHeader>
+              <CardWrapper
+                href={`/admin/projects/categories/${category.id}`}
+                type="link"
+              >
+                <CardHeader>
                   <h2 className="font-semibold text-lg">{category.title}</h2>
                   <p className="text-blue-900 font-semibold">
                     {isChangeOrderOpen ? (
@@ -128,8 +132,8 @@ export default function CategoryPanel() {
                       <span>Order: {category.order}</span>
                     )}
                   </p>
-                </CatHeader>
-                <CatBody>
+                </CardHeader>
+                <CardBody>
                   <p className="font-mono bg-slate-100 p-2">
                     {category.description.length > 20
                       ? category.description.slice(0, 20) + "..."
@@ -143,12 +147,12 @@ export default function CategoryPanel() {
                     <span className="font-bold">Projects:</span>{" "}
                     <span className="italic">{category.numProjects}</span>
                   </p>
-                </CatBody>
-                <CatFooter>
+                </CardBody>
+                <CardFooter>
                   <EditCategory onEdit={onEdit} category={category} />
                   <DeleteCategory onDelete={onDelete} category={category} />
-                </CatFooter>
-              </LinkWrapper>
+                </CardFooter>
+              </CardWrapper>
             </li>
           );
         })}
@@ -156,43 +160,3 @@ export default function CategoryPanel() {
     </div>
   );
 }
-
-/************************
- * Components
- */
-
-const LinkWrapper = (props: {
-  categoryID: string;
-  children: React.ReactNode;
-}) => {
-  return (
-    <Link
-      href={`/admin/projects/categories/${props.categoryID}`}
-      className="hover:bg-gray-300 rounded-lg shadow-sm shadow-slate-700 overflow-hidden h-full flex flex-col justify-between"
-    >
-      {props.children}
-    </Link>
-  );
-};
-
-const CatHeader = (props: { children: React.ReactNode }) => {
-  return (
-    <div className="p-2 bg-slate-400 flex justify-between items-center">
-      {props.children}
-    </div>
-  );
-};
-
-const CatBody = (props: { children: React.ReactNode }) => {
-  return (
-    <div className="p-4 flex flex-col gap-2 text-sm">{props.children}</div>
-  );
-};
-
-const CatFooter = (props: { children: React.ReactNode }) => {
-  return (
-    <div className="flex gap-2 justify-center bg-slate-300 p-2">
-      {props.children}
-    </div>
-  );
-};
