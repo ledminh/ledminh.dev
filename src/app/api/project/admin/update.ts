@@ -7,10 +7,14 @@ import deleteImages from "@/utils/deleteImages";
 import { Order } from "@/types";
 
 export default async function update(request: NextRequest) {
-  const { type, payload }: ProjectRequest = await request.json();
+  const contentType = request.headers.get("content-type");
 
-  if (type === "update-projects-order") {
-    return await updateProjectsOrder(payload);
+  if (contentType?.includes("application/json")) {
+    const { type, payload }: ProjectRequest = await request.json();
+
+    if (type === "update-projects-order") {
+      return await updateProjectsOrder(payload);
+    }
   }
 
   return await updateProject(request);

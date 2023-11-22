@@ -26,7 +26,6 @@ export async function POST(
       case "add":
         return add(request);
       case "update":
-        console.log("update");
         return update(request);
       case "delete":
         return del(request);
