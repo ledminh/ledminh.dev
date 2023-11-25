@@ -4,6 +4,7 @@ import { ProjectDB } from "@/data";
 import { ProjectCategoryWithProjects } from "@/types";
 
 import CategoryCard from "@/components/projects/CategoryCard";
+import Title from "@/components/Title";
 
 export default async function ProjectsPage() {
   const projectCategories = (await ProjectDB.getCategories({
@@ -26,7 +27,7 @@ export default async function ProjectsPage() {
 
   return (
     <Wrapper>
-      <Title>Projects</Title>
+      <Title>Project</Title>
       <List>
         {sortedProjectCategories.map((category) => (
           <CategoryCard key={category.id} category={category} />
@@ -40,17 +41,9 @@ export default async function ProjectsPage() {
  * Components
  */
 const Wrapper = ({ children }: { children: React.ReactNode }) => (
-  <div className="max-w-4xl xl:mx-auto mx-4 my-10 flex flex-col gap-8">
-    {children}
-  </div>
-);
-
-const Title = ({ children }: { children: React.ReactNode }) => (
-  <h1 className="text-4xl text-gray-700 font-bold border-b-2 border-b-gray-600">
-    {children}
-  </h1>
+  <div className="flex flex-col gap-8">{children}</div>
 );
 
 const List = (props: { children: React.ReactNode }) => (
-  <ul className="flex flex-col gap-5">{props.children}</ul>
+  <ul className="flex flex-col gap-8">{props.children}</ul>
 );
