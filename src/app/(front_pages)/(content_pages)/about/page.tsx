@@ -1,10 +1,16 @@
+import Title from "@/components/Title";
+
 export default function About() {
   return (
-    <div>
-      <h1>About Page</h1>
-      <span>Hello</span>
-      <span>How are you</span>
-      <span>Goodbye</span>
-    </div>
+    <Wrapper>
+      <Title>About</Title>
+    </Wrapper>
   );
 }
+
+/******************
+ * Components
+ */
+const Wrapper = ({ children }: { children: React.ReactNode }) => (
+  <div className="flex flex-col gap-8">{children}</div>
+);
