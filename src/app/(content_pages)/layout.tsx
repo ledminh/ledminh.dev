@@ -1,3 +1,4 @@
+import NavigationBar from "@/components/NavigationBar";
 import "@/styles/globals.css";
 import { Inter } from "next/font/google";
 
@@ -8,7 +9,7 @@ export const metadata = {
   description: "Minh Le - Software Engineer",
 };
 
-export default function FrontPageLayout({
+export default function ContentPageLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -18,7 +19,12 @@ export default function FrontPageLayout({
       <body
         className={`${inter.className} bg-gradient-to-b from-transparent via-white to-orange-50 min-h-screen min-w-[360px]`}
       >
-        {children}
+        <div className="max-w-4xl mx-auto w-[95%] my-8 flex flex-col gap-8">
+          <header>
+            <NavigationBar />
+          </header>
+          <main>{children}</main>
+        </div>
       </body>
     </html>
   );
