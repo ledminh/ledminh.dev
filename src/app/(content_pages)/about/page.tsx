@@ -1,9 +1,11 @@
 import Title from "@/components/Title";
+import AboutContent from "@/components/about/Content";
 
 export default function About() {
   return (
     <Wrapper>
       <Title>About</Title>
+      <AboutContent />
     </Wrapper>
   );
 }
