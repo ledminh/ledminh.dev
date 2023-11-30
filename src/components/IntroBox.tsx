@@ -10,17 +10,18 @@ export default function IntroBox() {
       <Text>
         <Line>
           <h1 className="text-5xl">
-            Hello, I'm <Emphasize>Minh Le</Emphasize>. I'm a web developer.
+            Hello, I&apos;m <Emphasize>Minh Le</Emphasize>. I&apos;m a web
+            developer.
           </h1>
         </Line>
         <Line>------------</Line>
         <Line>
-          I'm proficient in <Emphasize>ReactJS</Emphasize>,{" "}
+          I&apos;m proficient in <Emphasize>ReactJS</Emphasize>,{" "}
           <Emphasize>NextJS</Emphasize>, and <Emphasize>TypeScript</Emphasize>.
-          I'm also a fan of <Emphasize>TailwindCSS</Emphasize>.
+          I&apos;m also a fan of <Emphasize>TailwindCSS</Emphasize>.
         </Line>
         <Line>
-          I'm currently learning <Emphasize>AWS</Emphasize> and{" "}
+          I&apos;m currently learning <Emphasize>AWS</Emphasize> and{" "}
           <Emphasize>database</Emphasize>.
         </Line>
       </Text>
