@@ -1,6 +1,11 @@
 "use client";
 
-import { AboutIcon, HomeIcon, ProjectIcon } from "@/components/icons";
+import {
+  AboutIcon,
+  EducationIcon,
+  HomeIcon,
+  ProjectIcon,
+} from "@/components/icons";
 import Link from "next/link";
 
 import { FC } from "react";
@@ -48,6 +53,12 @@ const links: {
     label: "Projects",
     segment: "projects",
     Icon: ProjectIcon,
+  },
+  {
+    id: "education",
+    label: "Education",
+    segment: "education",
+    Icon: EducationIcon,
   },
   {
     id: "about",
