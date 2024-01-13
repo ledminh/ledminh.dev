@@ -10,5 +10,9 @@ export async function middleware(req: NextRequest) {
 
   const { data, error } = await supabase.auth.getSession();
 
+  if (error || !data) {
+    return NextResponse.redirect("/login");
+  }
+
   return res;
 }
