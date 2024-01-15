@@ -2,8 +2,8 @@ import { createClient } from "@supabase/supabase-js";
 import { FileOptions } from "@supabase/storage-js";
 
 const supabase = createClient(
-  process.env.SUPABASE_URL as string,
-  process.env.SUPABASE_API_KEY as string,
+  process.env.NEXT_PUBLIC_SUPABASE_URL as string,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string,
   {
     auth: { persistSession: false },
   }
@@ -41,7 +41,7 @@ export default async function uploadImage(
   return {
     error: null,
     imagePath:
-      process.env.SUPABASE_URL +
+      process.env.NEXT_PUBLIC_SUPABASE_URL +
       "/storage/v1/object/public/" +
       bucket +
       "/" +
