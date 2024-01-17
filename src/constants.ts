@@ -4,7 +4,7 @@ export const mainMenuData: MainMenuDataType[] = [
   {
     id: "learning-journal",
     title: "Learning Journal",
-    link: "/learning-journal",
+    link: "https://learning-journal-drab.vercel.app/",
     description: "My journey of continuous learning and growth",
   },
   {
@@ -12,12 +12,6 @@ export const mainMenuData: MainMenuDataType[] = [
     title: "Projects",
     link: "/projects",
     description: "Check out my projects",
-  },
-  {
-    id: "blog",
-    title: "Blog",
-    link: "/blog",
-    description: "Read about my thoughts on various topics",
   },
   {
     id: "education",

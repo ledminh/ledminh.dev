@@ -20,10 +20,6 @@ export default function IntroBox() {
           <Emphasize>NextJS</Emphasize>, and <Emphasize>TypeScript</Emphasize>.
           I&apos;m also a fan of <Emphasize>TailwindCSS</Emphasize>.
         </Line>
-        <Line>
-          I&apos;m currently learning <Emphasize>AWS</Emphasize> and{" "}
-          <Emphasize>database</Emphasize>.
-        </Line>
       </Text>
       <LearnMoreLink />
     </Wrapper>
